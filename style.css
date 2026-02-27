@@ -463,6 +463,31 @@ body {
 .hidden { display: none !important; }
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */
+
+/* Desktop: centered category pills + floating theme toggle */
+@media (min-width: 768px) {
+  .cat-nav-inner { justify-content: center; }
+
+  .theme-toggle {
+    position: fixed;
+    top: .8rem;
+    right: 1rem;
+    height: auto;
+    padding: .45rem .55rem;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    z-index: 200;
+    transition: color .2s, transform .4s var(--ease),
+                background-color .35s, border-color .35s;
+  }
+  .theme-toggle:hover {
+    color: var(--accent);
+    transform: rotate(25deg);
+    border-color: var(--accent);
+  }
+}
+
 @media (max-width: 600px) {
   :root { --hero-h: 220px; }
   .gallery { columns: 2 160px; padding: var(--gap); }
