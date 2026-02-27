@@ -43,7 +43,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add image-manifest.json image-dates.json og-preview.jpg sitemap.xml
+          git add image-manifest.json image-dates.json image-hashes.json og-preview.jpg sitemap.xml
           git add images/
           if git diff --staged --quiet; then
             echo "Nothing to commit."
