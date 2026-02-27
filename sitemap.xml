@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://bogdan1787.github.io/lavinia-portfolio/</loc>
+    <loc>https://laviniaenache.com/</loc>
     <image:image>
-      <image:loc>https://bogdan1787.github.io/lavinia-portfolio/images/abstract/abstract.jpg</image:loc>
+      <image:loc>https://laviniaenache.com/images/abstract/abstract.jpg</image:loc>
       <image:title>abstract</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://bogdan1787.github.io/lavinia-portfolio/images/landscapes/lake.jpg</image:loc>
+      <image:loc>https://laviniaenache.com/images/landscapes/lake.jpg</image:loc>
       <image:title>lake</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://bogdan1787.github.io/lavinia-portfolio/images/portraits/tree 2.jpg</image:loc>
+      <image:loc>https://laviniaenache.com/images/portraits/tree 2.jpg</image:loc>
       <image:title>tree 2</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://bogdan1787.github.io/lavinia-portfolio/images/portraits/tree.jpg</image:loc>
+      <image:loc>https://laviniaenache.com/images/portraits/tree.jpg</image:loc>
       <image:title>tree</image:title>
     </image:image>
   </url>
