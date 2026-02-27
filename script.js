@@ -29,7 +29,7 @@ const lbNext     = document.getElementById('lbNext');
 
 async function loadManifest() {
   try {
-    const res = await fetch('image-manifest.json');
+    const res = await fetch('image-manifest.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('not found');
     const manifest = await res.json();
     return manifest.categories || [];
