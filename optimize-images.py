@@ -126,10 +126,15 @@ def save_image(result: Image.Image, path: Path):
 
 
 def generate_thumb(rgba_img: Image.Image, original_path: Path) -> Path:
-    """Save a small thumbnail (no watermark) and return its path."""
+    """Save a 400px WebP thumbnail (no watermark) and return its path."""
     thumb_dir = original_path.parent / "thumbs"
     thumb_dir.mkdir(exist_ok=True)
-    thumb_path = thumb_dir / original_path.name
+    thumb_path = thumb_dir / (original_path.stem + ".webp")
+
+    # Remove old same-stem non-webp thumb if it exists
+    for old in thumb_dir.glob(original_path.stem + ".*"):
+        if old.suffix.lower() != ".webp":
+            old.unlink()
 
     thumb = rgba_img.copy()
     thumb.thumbnail((THUMB_PX, THUMB_PX), Image.LANCZOS)
