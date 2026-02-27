@@ -1,1 +1,22 @@
-{}
+{
+  "images/abstract/abstract.jpg": {
+    "h": 1600,
+    "hash": "1c62c8f481f37b843dbc8b1e08d9e93c19b4bd7447656f88873d6ac09f369ea2",
+    "w": 2400
+  },
+  "images/landscapes/lake.jpg": {
+    "h": 1506,
+    "hash": "220d5b451e55477442948e3a07b7d27384a24ba0089f833fcb30cccdd66e5d94",
+    "w": 2400
+  },
+  "images/portraits/tree 2.jpg": {
+    "h": 1200,
+    "hash": "f324ef52b9532e817cd4db59ec39b0fb60c4da1a7cd047eb4fe7efcd2a68059e",
+    "w": 1200
+  },
+  "images/portraits/tree.jpg": {
+    "h": 1280,
+    "hash": "bf656e595e1f3b5404edc332217af03b3962f611c72b9792f24608601e9abbff",
+    "w": 1157
+  }
+}

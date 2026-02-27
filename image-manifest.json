@@ -9,7 +9,7 @@
           "alt": "abstract",
           "w": 2400,
           "h": 1600,
-          "thumb": "images/abstract/thumbs/abstract.jpg",
+          "thumb": "images/abstract/thumbs/abstract.webp",
           "added": "2020-01-01"
         }
       ]
@@ -23,7 +23,7 @@
           "alt": "lake",
           "w": 2400,
           "h": 1506,
-          "thumb": "images/landscapes/thumbs/lake.jpg",
+          "thumb": "images/landscapes/thumbs/lake.webp",
           "added": "2020-01-01"
         }
       ]
@@ -37,7 +37,7 @@
           "alt": "tree 2",
           "w": 1200,
           "h": 1200,
-          "thumb": "images/portraits/thumbs/tree 2.jpg",
+          "thumb": "images/portraits/thumbs/tree 2.webp",
           "added": "2020-01-01"
         },
         {
@@ -45,7 +45,7 @@
           "alt": "tree",
           "w": 1157,
           "h": 1280,
-          "thumb": "images/portraits/thumbs/tree.jpg",
+          "thumb": "images/portraits/thumbs/tree.webp",
           "added": "2020-01-01"
         }
       ]
