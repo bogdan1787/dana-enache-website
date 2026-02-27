@@ -1,38 +1,50 @@
 #!/usr/bin/env python3
 """
 optimize-images.py
-Resizes and compresses images in-place for web delivery.
+Resizes, compresses, and watermarks images in-place for web delivery.
 
 Run:     python optimize-images.py
 Requires: pip install Pillow  (installed automatically if missing)
 
-How it tracks processed images:
-  A SHA-256 hash of each file is stored in image-hashes.json.
-  On every run, the current hash is compared to the stored one:
-    • Hash unchanged  → already compressed, skip entirely
-    • Hash changed / new → compress, overwrite, record new hash
-  This means each image is compressed exactly once, no matter how
-  many times the script or Action runs. Originals are overwritten —
-  keep high-res copies on your device / iPad.
+Pipeline per image (runs exactly once per unique file, tracked by SHA-256):
+  1. Resize to max 2400 px on longest side
+  2. Compress  (JPEG/WebP quality 85, PNG lossless)
+  3. Burn watermark: "© Lavinia Gabriela Enache" — bottom-right, Playfair Display Italic
+  4. Record SHA-256 of final file → stored in image-hashes.json
+
+On subsequent runs the hash is unchanged → step skipped entirely.
+To re-process an image (e.g. after changing watermark text), delete its
+entry from image-hashes.json or delete the file entirely.
 """
 
 import hashlib
 import json
+import urllib.request
 from pathlib import Path
 
 try:
-    from PIL import Image
+    from PIL import Image, ImageDraw, ImageFont
 except ImportError:
     import subprocess, sys
     print("Installing Pillow…")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow", "-q"])
-    from PIL import Image
+    from PIL import Image, ImageDraw, ImageFont
 
-IMAGES_DIR  = Path(__file__).parent / "images"
-HASHES_FILE = Path(__file__).parent / "image-hashes.json"
-MAX_PX      = 2400   # max width or height in pixels
-JPEG_Q      = 85     # JPEG / WebP quality (0-100)
+# ── Configuration ─────────────────────────────────────────────────────────────
 
+IMAGES_DIR    = Path(__file__).parent / "images"
+HASHES_FILE   = Path(__file__).parent / "image-hashes.json"
+FONT_DIR      = Path(__file__).parent / "fonts"
+FONT_PATH     = FONT_DIR / "PlayfairDisplay-Italic.ttf"
+FONT_URL      = ("https://raw.githubusercontent.com/google/fonts/main"
+                 "/ofl/playfairdisplay/static/PlayfairDisplay-Italic.ttf")
+
+WATERMARK_TEXT = "© Lavinia Gabriela Enache"
+MAX_PX         = 2400    # max width or height in pixels
+JPEG_Q         = 85      # JPEG / WebP quality
+
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
 def sha256(path: Path) -> str:
     h = hashlib.sha256()
@@ -40,7 +52,72 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-# Load existing hash registry
+def ensure_font():
+    """Download Playfair Display Italic if not already cached."""
+    if FONT_PATH.exists():
+        return
+    FONT_DIR.mkdir(exist_ok=True)
+    print(f"  Downloading font → {FONT_PATH.name}…")
+    urllib.request.urlretrieve(FONT_URL, FONT_PATH)
+    print(f"  ✓ Font cached at {FONT_PATH}")
+
+
+def get_font(size: int) -> ImageFont.FreeTypeFont:
+    try:
+        return ImageFont.truetype(str(FONT_PATH), size)
+    except Exception:
+        return ImageFont.load_default()
+
+
+def apply_watermark(img: Image.Image) -> Image.Image:
+    """Burn watermark text into the bottom-right corner."""
+    w, h = img.size
+
+    # Font size: 2.5% of shorter side, clamped 18–52 px
+    font_size = max(18, min(52, int(min(w, h) * 0.025)))
+    font      = get_font(font_size)
+
+    # Measure text on a scratch surface
+    scratch = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    bbox    = scratch.textbbox((0, 0), WATERMARK_TEXT, font=font)
+    tw, th  = bbox[2] - bbox[0], bbox[3] - bbox[1]
+
+    margin = int(min(w, h) * 0.018)   # ~1.8% of shorter side
+    x = w - tw - margin
+    y = h - th - margin
+
+    # Work in RGBA for transparency
+    rgba   = img.convert("RGBA")
+    layer  = Image.new("RGBA", rgba.size, (0, 0, 0, 0))
+    draw   = ImageDraw.Draw(layer)
+
+    shadow = max(1, font_size // 20)
+    # Shadow pass (dark, semi-transparent)
+    draw.text((x + shadow, y + shadow), WATERMARK_TEXT,
+              font=font, fill=(0, 0, 0, 130))
+    # Main text (white, semi-transparent)
+    draw.text((x, y), WATERMARK_TEXT,
+              font=font, fill=(255, 255, 255, 195))
+
+    return Image.alpha_composite(rgba, layer)
+
+
+def save_image(result: Image.Image, path: Path, original_mode: str):
+    fmt = path.suffix.lower()
+    if fmt in {".jpg", ".jpeg"}:
+        rgb = Image.new("RGB", result.size, (255, 255, 255))
+        rgb.paste(result, mask=result.split()[3])
+        rgb.save(path, "JPEG", quality=JPEG_Q, optimize=True)
+    elif fmt == ".png":
+        result.save(path, "PNG", optimize=True)
+    elif fmt == ".webp":
+        result.save(path, "WEBP", quality=JPEG_Q, method=6)
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+ensure_font()
+
 hashes: dict = {}
 if HASHES_FILE.exists():
     try:
@@ -60,42 +137,25 @@ for img_path in sorted(IMAGES_DIR.rglob("*")):
 
     if hashes.get(key) == current_hash:
         skipped += 1
-        continue  # already compressed by us — never re-compress
+        continue  # already processed — never re-compress or re-watermark
 
     orig_size = img_path.stat().st_size
 
     try:
         with Image.open(img_path) as img:
-            w, h       = img.size
-            needs_resize = max(w, h) > MAX_PX
+            original_mode = img.mode
+            w, h = img.size
 
-            if not needs_resize and orig_size <= 500_000:
-                # Small enough — no visual change needed, just record hash
-                hashes[key] = current_hash
-                skipped += 1
-                continue
-
-            if needs_resize:
+            if max(w, h) > MAX_PX:
                 img.thumbnail((MAX_PX, MAX_PX), Image.LANCZOS)
 
-            fmt = img_path.suffix.lower()
-            if fmt in {".jpg", ".jpeg"}:
-                if img.mode not in ("RGB", "L"):
-                    bg = Image.new("RGB", img.size, (255, 255, 255))
-                    if img.mode == "RGBA":
-                        bg.paste(img, mask=img.getchannel("A"))
-                    else:
-                        bg.paste(img.convert("RGB"))
-                    img = bg
-                img.save(img_path, "JPEG", quality=JPEG_Q, optimize=True)
-            elif fmt == ".png":
-                img.save(img_path, "PNG", optimize=True)
-            elif fmt == ".webp":
-                img.save(img_path, "WEBP", quality=JPEG_Q, method=6)
+            result = apply_watermark(img)
 
-        new_size     = img_path.stat().st_size
-        saving       = round((1 - new_size / orig_size) * 100) if orig_size else 0
-        hashes[key]  = sha256(img_path)   # hash of the compressed version
+        save_image(result, img_path, original_mode)
+
+        new_size      = img_path.stat().st_size
+        saving        = round((1 - new_size / orig_size) * 100) if orig_size else 0
+        hashes[key]   = sha256(img_path)   # hash of final watermarked file
         print(f"  ✓  {key}  {orig_size // 1024} KB → {new_size // 1024} KB  (−{saving}%)")
         changed += 1
 
@@ -106,7 +166,7 @@ for img_path in sorted(IMAGES_DIR.rglob("*")):
 HASHES_FILE.write_text(json.dumps(hashes, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 if changed:
-    print(f"\n✓  Compressed {changed} image{'s' if changed != 1 else ''}  "
+    print(f"\n✓  Processed {changed} image{'s' if changed != 1 else ''}  "
           f"({skipped} already up-to-date).")
 else:
     print(f"✓  All {skipped} image{'s' if skipped != 1 else ''} already up-to-date — nothing to do.")
