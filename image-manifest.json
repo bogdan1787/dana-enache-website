@@ -5,8 +5,8 @@
       "slug": "abstract",
       "images": [
         {
-          "file": "images/abstract/lake.jpg",
-          "alt": "lake"
+          "file": "images/abstract/abstract.jpg",
+          "alt": "abstract"
         }
       ]
     },
@@ -25,8 +25,12 @@
       "slug": "portraits",
       "images": [
         {
-          "file": "images/portraits/lake.jpg",
-          "alt": "lake"
+          "file": "images/portraits/tree 2.jpg",
+          "alt": "tree 2"
+        },
+        {
+          "file": "images/portraits/tree.jpg",
+          "alt": "tree"
         }
       ]
     }
