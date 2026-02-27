@@ -1,0 +1,70 @@
+name: Update Gallery
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "images/**"
+      - "image-manifest.json"
+      - "index.html"
+      - "style.css"
+      - "script.js"
+      - "CNAME"
+  workflow_dispatch:       # allow a manual run from the Actions tab
+
+permissions:
+  contents: write          # needed to commit the manifest back
+  pages: write             # needed for GitHub Pages deployment
+  id-token: write          # needed for OIDC Pages deployment
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # ── 1. Regenerate image-manifest.json ──────────────────────────────────────
+  update-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate manifest
+        run: python generate-manifest.py
+
+      - name: Commit manifest if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add image-manifest.json
+          if git diff --staged --quiet; then
+            echo "Manifest unchanged — nothing to commit."
+          else
+            git commit -m "chore: update image manifest [skip ci]"
+            git push
+          fi
+
+  # ── 2. Deploy to GitHub Pages ───────────────────────────────────────────────
+  deploy:
+    needs: update-manifest
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout (with fresh manifest)
+        uses: actions/checkout@v4
+        with:
+          ref: main           # pick up the manifest commit if it was just pushed
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."           # serve the repo root
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

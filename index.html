@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lavinia Gabriela Enache — Art &amp; Illustration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <h1 class="artist-name" id="artistName">Lavinia Gabriela Enache</h1>
+      <p  class="artist-tagline" id="artistTagline">Artist &amp; Illustrator</p>
+    </div>
+  </header>
+
+  <!-- ── CATEGORY NAV ─────────────────────────────────────────────────── -->
+  <nav class="cat-nav" id="catNav" aria-label="Filter by category">
+    <div class="cat-nav-inner">
+      <button class="cat-btn active" data-slug="all">All</button>
+      <!-- injected by script.js -->
+    </div>
+  </nav>
+
+  <!-- ── GALLERY ───────────────────────────────────────────────────────── -->
+  <main class="gallery" id="gallery" aria-label="Portfolio gallery">
+    <!-- injected by script.js -->
+  </main>
+
+  <!-- ── EMPTY STATE ──────────────────────────────────────────────────── -->
+  <div class="empty-state hidden" id="emptyState">
+    <div class="empty-inner">
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="8" y="8" width="48" height="48" rx="4"/>
+        <circle cx="24" cy="26" r="5"/>
+        <polyline points="8,44 20,32 32,42 44,28 56,40"/>
+      </svg>
+      <h2>No images yet</h2>
+      <p>Drop your images into subfolders inside <code>images/</code>, then run:</p>
+      <pre>node generate-manifest.js</pre>
+      <p>Each subfolder becomes a category in the gallery.</p>
+    </div>
+  </div>
+
+  <!-- ── LIGHTBOX ─────────────────────────────────────────────────────── -->
+  <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb-close"  id="lbClose"  aria-label="Close">&#x2715;</button>
+    <button class="lb-prev"   id="lbPrev"   aria-label="Previous image">&#x276E;</button>
+    <button class="lb-next"   id="lbNext"   aria-label="Next image">&#x276F;</button>
+    <figure class="lb-figure">
+      <img id="lbImg" src="" alt="" />
+      <figcaption id="lbCaption"></figcaption>
+    </figure>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
