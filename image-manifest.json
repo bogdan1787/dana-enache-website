@@ -6,7 +6,8 @@
       "images": [
         {
           "file": "images/abstract/abstract.jpg",
-          "alt": "abstract"
+          "alt": "abstract",
+          "added": "2020-01-01"
         }
       ]
     },
@@ -16,7 +17,8 @@
       "images": [
         {
           "file": "images/landscapes/lake.jpg",
-          "alt": "lake"
+          "alt": "lake",
+          "added": "2020-01-01"
         }
       ]
     },
@@ -26,11 +28,13 @@
       "images": [
         {
           "file": "images/portraits/tree 2.jpg",
-          "alt": "tree 2"
+          "alt": "tree 2",
+          "added": "2020-01-01"
         },
         {
           "file": "images/portraits/tree.jpg",
-          "alt": "tree"
+          "alt": "tree",
+          "added": "2020-01-01"
         }
       ]
     }
