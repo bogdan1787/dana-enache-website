@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bogdan1787.github.io/lavinia-portfolio/sitemap.xml

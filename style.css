@@ -124,6 +124,12 @@ body {
   margin-bottom: var(--gap);
   cursor: pointer;
   background: var(--surface);
+  animation: item-appear 0.5s var(--ease) both;
+}
+
+@keyframes item-appear {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .gallery-item img {
@@ -169,6 +175,23 @@ body {
 .gallery-item:hover .item-caption {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* "New" badge */
+.badge-new {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .2em .55em;
+  border-radius: 3px;
+  pointer-events: none;
 }
 
 /* Category section headings (visible in "All" view) */

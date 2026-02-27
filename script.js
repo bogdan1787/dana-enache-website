@@ -101,6 +101,7 @@ function makeItem(img, idx) {
   div.setAttribute('tabindex', '0');
   div.setAttribute('aria-label', img.alt || img.file);
   div.dataset.index = idx;
+  div.style.animationDelay = `${Math.min(idx, 20) * 0.05}s`;
 
   const image = document.createElement('img');
   image.src      = img.file;
@@ -115,6 +116,17 @@ function makeItem(img, idx) {
 
   div.appendChild(image);
   div.appendChild(caption);
+
+  // "New" badge — shown for 30 days after first upload
+  if (img.added) {
+    const age = (Date.now() - new Date(img.added).getTime()) / (1000 * 60 * 60 * 24);
+    if (age < 30) {
+      const badge = document.createElement('span');
+      badge.className = 'badge-new';
+      badge.textContent = 'New';
+      div.appendChild(badge);
+    }
+  }
 
   div.addEventListener('click', () => openLightbox(idx));
   div.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(idx); });

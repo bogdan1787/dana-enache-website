@@ -21,12 +21,18 @@ under "General".
 import json
 import re
 import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 
 IMAGES_DIR   = Path(__file__).parent / "images"
 MANIFEST_OUT = Path(__file__).parent / "image-manifest.json"
+DATES_FILE   = Path(__file__).parent / "image-dates.json"
+SITEMAP_OUT  = Path(__file__).parent / "sitemap.xml"
 OG_PREVIEW   = Path(__file__).parent / "og-preview.jpg"
 SUPPORTED    = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".svg"}
+
+# Update this when you add a custom domain
+SITE_URL = "https://bogdan1787.github.io/lavinia-portfolio"
 
 # Matches a leading numeric prefix like "01-", "02_", "003 " etc.
 ORDER_PREFIX = re.compile(r"^(\d+)[_\-\s]*")
@@ -94,7 +100,31 @@ for entry in entries:
 manifest = {"categories": categories}
 MANIFEST_OUT.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
-# Auto-copy first image as social preview (og-preview.jpg)
+# ── Date tracking ("New" badge) ───────────────────────────────────────────────
+# First-ever run: mark all existing images as old so no badge appears immediately.
+first_run = not DATES_FILE.exists()
+dates = {}
+if not first_run:
+    try:
+        dates = json.loads(DATES_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+
+today    = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+old_date = "2020-01-01"
+
+for cat in categories:
+    for img in cat["images"]:
+        if img["file"] not in dates:
+            dates[img["file"]] = old_date if first_run else today
+        img["added"] = dates[img["file"]]
+
+DATES_FILE.write_text(json.dumps(dates, indent=2) + "\n", encoding="utf-8")
+
+# Re-write manifest now that images have "added" dates
+MANIFEST_OUT.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+# ── Social preview ────────────────────────────────────────────────────────────
 first_img = next(
     (Path(__file__).parent / c["images"][0]["file"]
      for c in categories if c["images"]),
@@ -110,3 +140,24 @@ print(f"   {len(categories)} categor{'ies' if len(categories) != 1 else 'y'}, "
       f"{total} image{'s' if total != 1 else ''}")
 for c in categories:
     print(f"   • {c['name']} ({len(c['images'])})")
+
+# ── Sitemap ───────────────────────────────────────────────────────────────────
+img_tags = "\n".join(
+    f'    <image:image>\n'
+    f'      <image:loc>{SITE_URL}/{img["file"]}</image:loc>\n'
+    f'      <image:title>{img["alt"]}</image:title>\n'
+    f'    </image:image>'
+    for cat in categories
+    for img in cat["images"]
+)
+sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>{SITE_URL}/</loc>
+{img_tags}
+  </url>
+</urlset>
+"""
+SITEMAP_OUT.write_text(sitemap, encoding="utf-8")
+print(f"✓  Sitemap written  → {SITEMAP_OUT.name}  ({total} images)")

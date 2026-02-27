@@ -18,6 +18,13 @@ if "%PYTHON%"=="" (
     exit /b 1
 )
 
+%PYTHON% -c "import PIL" >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Installing Pillow image library...
+    %PYTHON% -m pip install Pillow --quiet
+)
+
+%PYTHON% optimize-images.py
 %PYTHON% generate-manifest.py
 echo.
 echo Done! Refresh index.html in your browser to see the updated gallery.
