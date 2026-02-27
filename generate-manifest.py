@@ -20,11 +20,16 @@ under "General".
 
 import json
 import re
+import shutil
 from pathlib import Path
 
 IMAGES_DIR   = Path(__file__).parent / "images"
 MANIFEST_OUT = Path(__file__).parent / "image-manifest.json"
+OG_PREVIEW   = Path(__file__).parent / "og-preview.jpg"
 SUPPORTED    = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".svg"}
+
+# Matches a leading numeric prefix like "01-", "02_", "003 " etc.
+ORDER_PREFIX = re.compile(r"^(\d+)[_\-\s]*")
 
 
 def slug_to_label(slug: str) -> str:
@@ -33,17 +38,27 @@ def slug_to_label(slug: str) -> str:
 
 
 def image_entry(rel: Path, filename: str) -> dict:
-    stem = Path(filename).stem
-    alt  = re.sub(r"[-_]+", " ", stem).strip()
+    stem  = Path(filename).stem
+    # Strip leading numeric order prefix from display name
+    clean = ORDER_PREFIX.sub("", stem)
+    alt   = re.sub(r"[-_]+", " ", clean).strip() or stem
     return {"file": rel.as_posix(), "alt": alt}
+
+
+def sort_key(filename: str):
+    """Sort by numeric prefix if present, then alphabetically."""
+    m = ORDER_PREFIX.match(Path(filename).stem)
+    return (int(m.group(1)), filename) if m else (10000, filename)
 
 
 def scan_dir(directory: Path, slug: str) -> list:
     images = []
     try:
-        for f in sorted(directory.iterdir()):
-            if f.is_file() and f.suffix.lower() in SUPPORTED:
-                images.append(image_entry(Path("images") / slug / f.name, f.name))
+        files = [f for f in directory.iterdir()
+                 if f.is_file() and f.suffix.lower() in SUPPORTED]
+        files.sort(key=lambda f: sort_key(f.name))
+        for f in files:
+            images.append(image_entry(Path("images") / slug / f.name, f.name))
     except PermissionError:
         pass
     return images
@@ -59,11 +74,9 @@ categories = []
 entries    = sorted(IMAGES_DIR.iterdir(), key=lambda e: e.name.lower())
 
 # Images directly in images/ root → "General"
-root_images = [
-    image_entry(Path("images") / e.name, e.name)
-    for e in entries
-    if e.is_file() and e.suffix.lower() in SUPPORTED
-]
+root_files = [e for e in entries if e.is_file() and e.suffix.lower() in SUPPORTED]
+root_files.sort(key=lambda f: sort_key(f.name))
+root_images = [image_entry(Path("images") / e.name, e.name) for e in root_files]
 if root_images:
     categories.append({"name": "General", "slug": "general", "images": root_images})
 
@@ -80,6 +93,16 @@ for entry in entries:
 
 manifest = {"categories": categories}
 MANIFEST_OUT.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+# Auto-copy first image as social preview (og-preview.jpg)
+first_img = next(
+    (Path(__file__).parent / c["images"][0]["file"]
+     for c in categories if c["images"]),
+    None
+)
+if first_img and first_img.exists():
+    shutil.copy2(first_img, OG_PREVIEW)
+    print(f"   ✓ Social preview → {OG_PREVIEW.name}")
 
 total = sum(len(c["images"]) for c in categories)
 print(f"✓  Manifest written → {MANIFEST_OUT.name}")

@@ -103,10 +103,11 @@ function makeItem(img, idx) {
   div.dataset.index = idx;
 
   const image = document.createElement('img');
-  image.src     = img.file;
-  image.alt     = img.alt || '';
-  image.loading = 'lazy';
+  image.src      = img.file;
+  image.alt      = img.alt || '';
+  image.loading  = 'lazy';
   image.decoding = 'async';
+  image.draggable = false;
 
   const caption = document.createElement('span');
   caption.className = 'item-caption';
@@ -199,6 +200,18 @@ lightbox.addEventListener('touchstart', e => { touchStartX = e.touches[0].client
 lightbox.addEventListener('touchend',   e => {
   const dx = e.changedTouches[0].clientX - touchStartX;
   if (Math.abs(dx) > 50) stepLightbox(dx < 0 ? +1 : -1);
+});
+
+// ── Image protection ─────────────────────────────────────────────────────────
+
+// Disable right-click save on images
+document.addEventListener('contextmenu', e => {
+  if (e.target.tagName === 'IMG') e.preventDefault();
+});
+
+// Disable drag-to-desktop
+document.addEventListener('dragstart', e => {
+  if (e.target.tagName === 'IMG') e.preventDefault();
 });
 
 // ── Init ──────────────────────────────────────────────────────────────────────

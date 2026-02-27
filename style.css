@@ -132,6 +132,9 @@ body {
   height: auto;
   transition: transform .5s var(--ease), filter .4s var(--ease);
   border-radius: var(--radius);
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;   /* handled by the parent div */
 }
 
 /* Hover overlay */
@@ -276,6 +279,9 @@ body {
   border-radius: var(--radius);
   animation: img-in .3s var(--ease) both;
   box-shadow: 0 20px 80px rgba(0,0,0,.6);
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
 }
 
 @keyframes img-in {
