@@ -23,18 +23,20 @@
   --text:    #1a1a1a;
   --muted:   #555555;
 }
-/* Hero/page-hero have a dark gradient bg regardless of theme — always use light text vars */
+/* Dark theme hero: gradient is dark → force light text so it's always readable */
 .hero,
 .page-hero {
   color:   #f0ede8;
   --text:  #f0ede8;
   --muted: #b0a89a;
 }
-/* In light theme the gradient fades to a cream bg — dark oval too small on mobile.
-   Override to a fully-dark gradient so text is always readable at any viewport size. */
+/* Light theme hero: warm cream gradient → natural dark text, truly light */
 [data-theme="light"] .hero,
 [data-theme="light"] .page-hero {
-  background: radial-gradient(ellipse at center, #2a0808 0%, #1a0a0a 60%, #1e0d0d 100%);
+  background: radial-gradient(ellipse at center, #fff0e8 0%, var(--bg) 70%);
+  color:   #1a1a1a;
+  --text:  #1a1a1a;
+  --muted: #555555;
 }
 
 /* ── Reset ──────────────────────────────────────────────────── */
