@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T18:56:55",
+    "generated": "2026-03-02T19:03:44",
     "count": 12
   },
   "stories": [
@@ -10,7 +10,8 @@
       "lang": "en",
       "file": "stories/back-to-life/story.txt",
       "excerpt": "I was six years old when I first died. I was playing in the park, running from swing to slide to climbing frame. I slipped, fell from a high place that probably had a faulty design with no safety taken into consideration",
-      "added": "2025-12-13"
+      "added": "2025-12-13",
+      "cover": "stories/back-to-life/cover.jpg"
     },
     {
       "slug": "ellis",
@@ -18,7 +19,8 @@
       "lang": "en",
       "file": "stories/ellis/story.txt",
       "excerpt": "This is a personalized short story, based on a real person.  I created this using the information my client has given me. It’s an unique story that builds around her fears.  You can order your own personalized story from",
-      "added": "2025-09-29"
+      "added": "2025-09-29",
+      "cover": "stories/ellis/cover.jpg"
     },
     {
       "slug": "his",
@@ -26,7 +28,8 @@
       "lang": "en",
       "file": "stories/his/story.txt",
       "excerpt": "The story you are about to read is suitable for 18+ years. Explicit content.  That being said… I am still a horror writer. This just slipped through. 🙂 Enjoy, friends! And don’t forget to leave me a comment down below. x",
-      "added": "2025-06-17"
+      "added": "2025-06-17",
+      "cover": "stories/his/cover.jpg"
     },
     {
       "slug": "last-breath",
@@ -34,7 +37,8 @@
       "lang": "en",
       "file": "stories/last-breath/story.txt",
       "excerpt": "LINK for audio version part 1-3: https://youtu.be/fvetpEfoszY  LINK for audio version part 4-6: https://youtu.be/ez9pCk1SBuQ  PART 1 : 6 month before dying  MARK  April 1st 2024  I am starting this Journal on the 1st of",
-      "added": "2025-05-02"
+      "added": "2025-05-02",
+      "cover": "stories/last-breath/cover.jpg"
     },
     {
       "slug": "the-little-ones",
@@ -42,7 +46,8 @@
       "lang": "en",
       "file": "stories/the-little-ones/story.txt",
       "excerpt": "Freya woke up like she always did at seven AM to have her cup of tea and breakfast before the little ones decided that sleep was their enemy and joined her with their noise, constant running around and mess that covered",
-      "added": "2025-03-04"
+      "added": "2025-03-04",
+      "cover": "stories/the-little-ones/cover.jpg"
     },
     {
       "slug": "trophies",
@@ -50,7 +55,8 @@
       "lang": "en",
       "file": "stories/trophies/story.txt",
       "excerpt": "It was 3 AM when Rosie finally turned off her phone and put it on the nightstand. What was it about him that kept her up like this anyway? Almost every night she’d stay awake just to chat with him, even though she was cl",
-      "added": "2025-01-28"
+      "added": "2025-01-28",
+      "cover": "stories/trophies/cover.jpg"
     },
     {
       "slug": "eternity",
@@ -58,7 +64,8 @@
       "lang": "en",
       "file": "stories/eternity/story.txt",
       "excerpt": "Ever since he was a little boy, Jason wanted to marry and have a family. It was his deepest, darkest desire that he kept hidden form the world in fear of loosing it, getting it tainted by the filth of other people. In hi",
-      "added": "2025-01-04"
+      "added": "2025-01-04",
+      "cover": "stories/eternity/cover.jpg"
     },
     {
       "slug": "robbie",
@@ -66,7 +73,8 @@
       "lang": "en",
       "file": "stories/robbie/story.txt",
       "excerpt": "Robbie was a twenty-nine year old man who liked to think he was a decent person. He had finished Law school with a decent grade, got a job as an intern for a while and now he was working as a lawyer for a big firm. He ev",
-      "added": "2024-10-31"
+      "added": "2024-10-31",
+      "cover": "stories/robbie/cover.jpg"
     },
     {
       "slug": "love",
@@ -74,7 +82,8 @@
       "lang": "en",
       "file": "stories/love/story.txt",
       "excerpt": "“It’s all about perspective. And a little distance I guess. Some things are just better when viewed from afar.  Take my face for example. If I sit down on my chair and look at my skin in the mirror without leaning forwar",
-      "added": "2023-02-28"
+      "added": "2023-02-28",
+      "cover": "stories/love/cover.jpg"
     },
     {
       "slug": "soul",
@@ -82,7 +91,8 @@
       "lang": "en",
       "file": "stories/soul/story.txt",
       "excerpt": "1.  “What are you doing?” he asked rushing to her.  “Look at it. It is so tiny”, she answered, holding out her left palm for him to see.  “What is it?”  “Can’t you see it? I thought you might not. It is so tiny I can bar",
-      "added": "2022-01-29"
+      "added": "2022-01-29",
+      "cover": "stories/soul/cover.jpg"
     },
     {
       "slug": "sensors",
@@ -90,7 +100,8 @@
       "lang": "en",
       "file": "stories/sensors/story.txt",
       "excerpt": "Do you know why those sensors that sometimes exist in a house are good? Well… not only to protect from burglars. Who has time anyway to arm the house every time they leave?               Those sensors that blink or make",
-      "added": "2021-03-27"
+      "added": "2021-03-27",
+      "cover": "stories/sensors/cover.jpg"
     },
     {
       "slug": "thing",
@@ -98,7 +109,8 @@
       "lang": "en",
       "file": "stories/thing/story.txt",
       "excerpt": "Sometimes in life you just have to stop and stare. One day it may be your neighbor licking his cat and you look at him and think hey, maybe he’s retarded, or maybe some other day it may be that weird looking monkey fucki",
-      "added": "2021-03-01"
+      "added": "2021-03-01",
+      "cover": "stories/thing/cover.png"
     }
   ]
 }
