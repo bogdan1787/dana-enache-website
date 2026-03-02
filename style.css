@@ -321,6 +321,8 @@ body {
   font-size:     1.3rem;
   margin-bottom: 0.75rem;
 }
+.book-title a { color: var(--text); text-decoration: none; }
+.book-title a:hover { color: var(--accent-hover); }
 .book-synopsis {
   color:         var(--muted);
   font-size:     0.9rem;
