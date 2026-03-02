@@ -471,6 +471,22 @@ body {
   transition:    color var(--transition);
 }
 .back-link:hover { color: var(--accent-hover); }
+/* Breadcrumb nav */
+.breadcrumb { margin-bottom: 1.5rem; }
+.breadcrumb ol {
+  display:     flex;
+  flex-wrap:   wrap;
+  gap:         0.25rem 0.5rem;
+  list-style:  none;
+  padding:     0;
+  margin:      0;
+  font-size:   0.82rem;
+  color:       var(--muted);
+}
+.breadcrumb ol li + li::before { content: '›'; margin-right: 0.5rem; }
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--accent-hover); }
+.breadcrumb [aria-current="page"] { color: var(--text); }
 .story-page-header  { margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
 .story-page-title {
   font-family:   'Playfair Display', Georgia, serif;

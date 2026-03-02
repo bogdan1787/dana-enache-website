@@ -36,10 +36,38 @@ STORY_PAGE_TEMPLATE = """\
   <title>{title} — Dana Enache</title>
   <meta name="description" content="{excerpt}" />
   <meta property="og:type"        content="article" />
+  <meta property="og:site_name"   content="Dana Enache — Horror Author" />
   <meta property="og:title"       content="{title} — Dana Enache" />
   <meta property="og:description" content="{excerpt}" />
   <meta property="og:url"         content="https://danaenache.com/stories/{slug}/" />
-{og_image_html}  <link rel="canonical" href="https://danaenache.com/stories/{slug}/" />
+{og_image_html}  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@danaenache_com" />
+  <meta name="twitter:title"       content="{title} — Dana Enache" />
+  <meta name="twitter:description" content="{excerpt}" />
+{twitter_image_html}  <link rel="canonical" href="https://danaenache.com/stories/{slug}/" />
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{title}",
+    "author": {{ "@type": "Person", "name": "Dana Enache", "url": "https://danaenache.com/" }},
+    "datePublished": "{added}",
+    "inLanguage": "{lang}",
+    "url": "https://danaenache.com/stories/{slug}/",
+    "publisher": {{ "@type": "Person", "name": "Dana Enache", "url": "https://danaenache.com/" }}{article_image_json}
+  }}
+  </script>
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {{ "@type": "ListItem", "position": 1, "name": "Home",    "item": "https://danaenache.com/" }},
+      {{ "@type": "ListItem", "position": 2, "name": "Stories", "item": "https://danaenache.com/stories/" }},
+      {{ "@type": "ListItem", "position": 3, "name": "{title}" }}
+    ]
+  }}
+  </script>
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -64,8 +92,14 @@ STORY_PAGE_TEMPLATE = """\
 
   <article class="story-page">
     <div class="story-page-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../">Home</a></li>
+          <li><a href="../../stories.html">Stories</a></li>
+          <li aria-current="page">{title}</li>
+        </ol>
+      </nav>
       <header class="story-page-header">
-        <a href="../../stories.html" class="back-link">← All Stories</a>
         <h1 class="story-page-title">{title}</h1>
         <div class="story-page-meta">
           <span class="badge badge-{lang}">{lang_upper}</span>
@@ -211,20 +245,27 @@ def main():
         date_html = f'<span class="story-page-date">{added}</span>' if added else ''
         body_html = text_to_html(text)
         if cover_filename:
-            og_image_html = f'  <meta property="og:image" content="https://danaenache.com/stories/{slug}/{cover_filename}" />\n'
-            cover_html    = f'      <figure class="story-cover">\n        <img src="{cover_filename}" alt="{html.escape(title)}" loading="lazy" />\n      </figure>\n'
+            og_image_html       = f'  <meta property="og:image" content="https://danaenache.com/stories/{slug}/{cover_filename}" />\n'
+            twitter_image_html  = f'  <meta name="twitter:image" content="https://danaenache.com/stories/{slug}/{cover_filename}" />\n'
+            article_image_json  = f',\n    "image": "https://danaenache.com/stories/{slug}/{cover_filename}"'
+            cover_html          = f'      <figure class="story-cover">\n        <img src="{cover_filename}" alt="{html.escape(title)}" loading="lazy" />\n      </figure>\n'
         else:
-            og_image_html = ''
-            cover_html    = ''
+            og_image_html      = ''
+            twitter_image_html = ''
+            article_image_json = ''
+            cover_html         = ''
         page_html = STORY_PAGE_TEMPLATE.format(
             lang=lang,
             lang_upper=lang.upper(),
             title=html.escape(title),
             slug=slug,
             excerpt=html.escape(excerpt),
+            added=added,
             date_html=date_html,
             body_html=body_html,
             og_image_html=og_image_html,
+            twitter_image_html=twitter_image_html,
+            article_image_json=article_image_json,
             cover_html=cover_html,
         )
         page_path = os.path.join(story_path, 'index.html')
