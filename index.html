@@ -19,14 +19,14 @@
   <link rel="stylesheet" href="style.css" />
   <script>(function(){var t=localStorage.getItem('de-theme')||'dark';document.documentElement.dataset.theme=t;})()</script>
 </head>
-<body>
+<body data-page="home">
 
   <!-- NAV -->
   <nav class="site-nav" id="siteNav">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">Dana Enache</a>
+      <a href="./" class="nav-logo">Dana Enache</a>
       <div class="nav-links">
-        <a href="/" class="nav-link active">Home</a>
+        <a href="./" class="nav-link active">Home</a>
         <a href="books/" class="nav-link">Books</a>
         <a href="stories.html" class="nav-link">Stories</a>
         <a href="about.html" class="nav-link">About</a>
@@ -42,7 +42,7 @@
       <h1 class="hero-title">Dana Enache</h1>
       <p class="hero-tagline">Your story. Your fears. Your horror.</p>
       <p class="hero-sub">Ready to be scared by something that knows your name?</p>
-      <a href="https://www.paypal.com/ncp/payment/PUWBJ5ZTZ93PW" class="hero-cta" target="_blank" rel="noopener">Order Personalized Story</a>
+      <a href="https://www.paypal.com/ncp/payment/PUWBJ5ZTZ93PW" class="hero-cta" target="_blank" rel="noopener" data-paypal-link="true">Order Personalized Story</a>
     </div>
     <span class="hero-scroll-hint" onclick="document.getElementById('books').scrollIntoView({behavior:'smooth'})">↓</span>
   </header>
@@ -62,7 +62,7 @@
           <div class="book-info">
             <h3 class="book-title">Evolution</h3>
             <p class="book-synopsis">Humanity has evolved. In a world divided between MET 1 and MET 2 abilities, Jack wakes up 160 years later with unexpected powers — and finds himself at the center of a war for dominance.</p>
-            <a href="https://www.amazon.com/EVOLUTION-Dana-Enache/dp/B0FSJNJ5SN" class="buy-btn" target="_blank" rel="noopener">Buy on Amazon</a>
+            <a href="https://www.amazon.com/dp/B0FSJNJ5SN" class="buy-btn" target="_blank" rel="noopener" data-amazon-asin="B0FSJNJ5SN">Buy on Amazon</a>
           </div>
         </article>
         <article class="book-card">
@@ -75,7 +75,7 @@
           <div class="book-info">
             <h3 class="book-title">On Vacation</h3>
             <p class="book-synopsis">A dream holiday on a private island. But the hotel workers keep disturbing secrets, and the monster in the shadows is always hungry for fresh meat.</p>
-            <a href="https://www.amazon.com/VACATION-Dana-Enache/dp/B0CW5PYJBB" class="buy-btn" target="_blank" rel="noopener">Buy on Amazon</a>
+            <a href="https://www.amazon.com/dp/B0CW5PYJBB" class="buy-btn" target="_blank" rel="noopener" data-amazon-asin="B0CW5PYJBB">Buy on Amazon</a>
           </div>
         </article>
         <article class="book-card">
@@ -88,7 +88,7 @@
           <div class="book-info">
             <h3 class="book-title">The Dream</h3>
             <p class="book-synopsis">A collection of short horror and psychological stories that plays with agony, fear and trauma. Which one will be your favourite?</p>
-            <a href="https://www.amazon.com/Dream-Dana-Enache/dp/B0B1CC3FPP" class="buy-btn" target="_blank" rel="noopener">Buy on Amazon</a>
+            <a href="https://www.amazon.com/dp/B0B1CC3FPP" class="buy-btn" target="_blank" rel="noopener" data-amazon-asin="B0B1CC3FPP">Buy on Amazon</a>
           </div>
         </article>
       </div>
@@ -104,5 +104,7 @@
   </footer>
 
   <script src="theme.js"></script>
+  <script src="geo-links.js"></script>
+  <script src="blood.js"></script>
 </body>
 </html>

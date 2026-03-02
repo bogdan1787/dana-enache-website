@@ -82,6 +82,7 @@ STORY_PAGE_TEMPLATE = """\
 
   <script src="../../theme.js"></script>
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+  <script src="../../blood.js"></script>
 </body>
 </html>
 """
