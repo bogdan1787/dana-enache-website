@@ -136,14 +136,31 @@ body {
   background:      radial-gradient(ellipse at center, #1a0a0a 0%, var(--bg) 70%);
 }
 .hero-inner { max-width: 680px; }
-.hero-skull {
-  font-size:     2.2rem;
-  margin-bottom: 0.4rem;
-  animation:     skull-pulse 4s ease-in-out infinite;
+.hero-portrait {
+  width:         88px;
+  height:        88px;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  overflow:      hidden;
+  border:        2px solid var(--accent);
+  box-shadow:    0 0 0 4px rgba(139,26,26,0.18), 0 0 24px rgba(139,26,26,0.35);
+  animation:     portrait-pulse 5s ease-in-out infinite;
+  flex-shrink:   0;
 }
-@keyframes skull-pulse {
-  0%, 100% { opacity: 0.7; transform: scale(1);    }
-  50%       { opacity: 1;   transform: scale(1.06); }
+.hero-portrait img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  object-position: center top;
+  filter:     grayscale(55%) brightness(0.72) contrast(1.15) sepia(12%);
+  transition: filter 0.4s ease;
+}
+.hero-portrait:hover img {
+  filter: grayscale(30%) brightness(0.85) contrast(1.1) sepia(8%);
+}
+@keyframes portrait-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(139,26,26,0.18), 0 0 20px rgba(139,26,26,0.3); }
+  50%       { box-shadow: 0 0 0 4px rgba(139,26,26,0.30), 0 0 36px rgba(139,26,26,0.55); }
 }
 .hero-title {
   font-family:    'Playfair Display', Georgia, serif;
