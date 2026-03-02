@@ -621,6 +621,9 @@ body {
   /* Hero: keep our 55vh — no 100vh override on mobile */
   .hero { min-height: 45vh; }
 
+  /* Scroll hint overlaps CTA on small hero — hide it, content is immediately below */
+  .hero-scroll-hint { display: none; }
+
   .books-grid,
   .stories-grid { grid-template-columns: 1fr; }
 
