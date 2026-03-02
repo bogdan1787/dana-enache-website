@@ -39,7 +39,7 @@ jobs:
         run: python optimize-images.py
 
       - name: Generate manifest & sitemap
-        run: python generate-manifest.py
+        run: python generate-manifest.py && python generate-story-manifest.py
 
       - name: Validate output
         run: python validate.py
@@ -49,7 +49,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add image-manifest.json image-dates.json image-hashes.json og-preview.jpg sitemap.xml
-          git add images/ fonts/
+          git add images/ fonts/ story-manifest.json story-dates.json stories/
           if git diff --staged --quiet; then
             echo "Nothing to commit."
           else

@@ -1,13 +1,15 @@
 import os
 import json
+import html
 from datetime import datetime
 
-# Constants
-STORIES_DIR = 'stories'
+STORIES_DIR   = 'stories'
 MANIFEST_FILE = 'story-manifest.json'
-DATES_FILE = 'story-dates.json'
+DATES_FILE    = 'story-dates.json'
+
 KNOWN_RO_SLUGS = {
-    'naluca', 'constanta', 'omul-verde', 'copilul-din-vis', 'oameni-cu-fete-monotone', '3'
+    'naluca', 'constanta', 'omul-verde', 'copilul-din-vis',
+    'oameni-cu-fete-monotone', '3'
 }
 SPECIAL_TITLES = {
     '3': '3',
@@ -22,6 +24,68 @@ SPECIAL_TITLES = {
 }
 RO_DIACRITICS = set('ăâîșț')
 
+STORY_PAGE_TEMPLATE = """\
+<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} — Dana Enache</title>
+  <meta name="description" content="{excerpt}" />
+  <meta property="og:type"        content="article" />
+  <meta property="og:title"       content="{title} — Dana Enache" />
+  <meta property="og:description" content="{excerpt}" />
+  <meta property="og:url"         content="https://danaenache.com/stories/{slug}/" />
+  <link rel="canonical" href="https://danaenache.com/stories/{slug}/" />
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <script>(function(){{var t=localStorage.getItem('de-theme')||'dark';document.documentElement.dataset.theme=t;}})()</script>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../../" class="nav-logo">Dana Enache</a>
+      <div class="nav-links">
+        <a href="../../" class="nav-link">Home</a>
+        <a href="../../books/" class="nav-link">Books</a>
+        <a href="../../stories.html" class="nav-link active">Stories</a>
+        <a href="../../about.html" class="nav-link">About</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <article class="story-page">
+    <div class="story-page-inner">
+      <header class="story-page-header">
+        <a href="../../stories.html" class="back-link">← All Stories</a>
+        <h1 class="story-page-title">{title}</h1>
+        <div class="story-page-meta">
+          <span class="badge badge-{lang}">{lang_upper}</span>
+          {date_html}
+        </div>
+      </header>
+      <div class="story-page-body">
+{body_html}
+      </div>
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="footerYear"></span> Dana Enache &mdash; All rights reserved.</p>
+    <p style="margin-top:0.5rem"><a href="../../stories.html" style="color:var(--accent-hover)">← Back to all stories</a></p>
+  </footer>
+
+  <script src="../../theme.js"></script>
+  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+</body>
+</html>
+"""
+
 def detect_lang(slug, text):
     if slug in KNOWN_RO_SLUGS:
         return 'ro'
@@ -34,60 +98,98 @@ def title_from_slug(slug):
         return SPECIAL_TITLES[slug]
     return slug.replace('-', ' ').title()
 
+def text_to_html(text):
+    """Convert plain text paragraphs to HTML <p> tags."""
+    paragraphs = text.strip().split('\n\n')
+    lines = []
+    for para in paragraphs:
+        para = para.strip()
+        if not para:
+            continue
+        escaped = html.escape(para).replace('\n', '<br />\n')
+        lines.append(f'        <p>{escaped}</p>')
+    return '\n'.join(lines)
+
 def main():
-    # Load or create story-dates.json
     if os.path.exists(DATES_FILE):
         with open(DATES_FILE, encoding='utf-8') as f:
             story_dates = json.load(f)
     else:
         story_dates = {}
+
     today = datetime.now().strftime('%Y-%m-%d')
     stories = []
-    for slug in os.listdir(STORIES_DIR):
+
+    for slug in sorted(os.listdir(STORIES_DIR)):
         story_path = os.path.join(STORIES_DIR, slug)
         if not os.path.isdir(story_path):
             continue
         story_txt = os.path.join(story_path, 'story.txt')
         if not os.path.isfile(story_txt):
             continue
+
         with open(story_txt, encoding='utf-8') as f:
             text = f.read().strip()
-        excerpt = text[:250].strip()
-        lang = detect_lang(slug, text)
-        title = title_from_slug(slug)
+
+        excerpt = text[:220].replace('"', "'").replace('\n', ' ').strip()
+        lang    = detect_lang(slug, text)
+        title   = title_from_slug(slug)
+
         cover = None
-        for ext in ['jpg', 'png']:
+        for ext in ['jpg', 'png', 'webp']:
             cover_path = os.path.join(story_path, f'cover.{ext}')
             if os.path.isfile(cover_path):
                 cover = f'stories/{slug}/cover.{ext}'
                 break
+
         if slug not in story_dates:
             story_dates[slug] = today
+        added = story_dates[slug]
+
         story_obj = {
-            'slug': slug,
-            'title': title,
-            'lang': lang,
-            'file': f'stories/{slug}/story.txt',
+            'slug':    slug,
+            'title':   title,
+            'lang':    lang,
+            'file':    f'stories/{slug}/story.txt',
             'excerpt': excerpt,
-            'added': story_dates[slug]
+            'added':   added,
         }
         if cover:
             story_obj['cover'] = cover
         stories.append(story_obj)
-    # Sort by date descending
+
+        # Generate individual story HTML page
+        date_html = f'<span class="story-page-date">{added}</span>' if added else ''
+        body_html = text_to_html(text)
+        page_html = STORY_PAGE_TEMPLATE.format(
+            lang=lang,
+            lang_upper=lang.upper(),
+            title=html.escape(title),
+            slug=slug,
+            excerpt=html.escape(excerpt),
+            date_html=date_html,
+            body_html=body_html,
+        )
+        page_path = os.path.join(story_path, 'index.html')
+        with open(page_path, 'w', encoding='utf-8') as f:
+            f.write(page_html)
+
     stories.sort(key=lambda s: s['added'], reverse=True)
+
     manifest = {
         'meta': {
             'generated': datetime.now().isoformat(timespec='seconds'),
-            'count': len(stories)
+            'count': len(stories),
         },
-        'stories': stories
+        'stories': stories,
     }
     with open(MANIFEST_FILE, 'w', encoding='utf-8') as f:
         json.dump(manifest, f, ensure_ascii=False, indent=2)
     with open(DATES_FILE, 'w', encoding='utf-8') as f:
         json.dump(story_dates, f, ensure_ascii=False, indent=2)
+
     print(f"Generated story-manifest.json with {len(stories)} stories")
+    print(f"Generated {len(stories)} individual story pages (stories/{{slug}}/index.html)")
 
 if __name__ == '__main__':
     main()
