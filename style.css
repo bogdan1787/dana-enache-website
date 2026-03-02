@@ -327,8 +327,50 @@ body {
   color:         var(--muted);
   font-size:     0.9rem;
   line-height:   1.7;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
 }
+
+/* ── Goodreads Rating Badge ─────────────────────────────────── */
+.gr-rating-wrap { margin-bottom: 1rem; }
+.gr-badge {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             0.4rem;
+  text-decoration: none;
+  font-size:       0.82rem;
+  color:           var(--muted);
+  transition:      color var(--transition);
+}
+.gr-badge:hover { color: var(--text); }
+.gr-stars {
+  position:    relative;
+  display:     inline-block;
+  line-height: 1;
+  font-size:   0.95rem;
+}
+.gr-stars-empty { color: #555; }
+.gr-stars-fill {
+  position:    absolute;
+  top:         0;
+  left:        0;
+  overflow:    hidden;
+  white-space: nowrap;
+  color:       #c0392b;
+}
+.gr-score {
+  font-weight: 600;
+  color:       var(--text);
+  font-size:   0.85rem;
+}
+.gr-count { color: var(--muted); }
+.gr-logo {
+  font-size:   0.72rem;
+  color:       var(--muted);
+  opacity:     0.7;
+  border-left: 1px solid var(--border);
+  padding-left: 0.4rem;
+}
+
 /* Amazon / standard buy — neutral, unobtrusive */
 .buy-btn {
   display:        inline-flex;
