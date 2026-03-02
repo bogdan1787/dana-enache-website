@@ -1,0 +1,77 @@
+name: Update Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "images/**"
+      - "stories/**"
+      - "index.html"
+      - "style.css"
+      - "script.js"
+      - "generate-story-manifest.py"
+      - "optimize-images.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # ── 1. Regenerate story pages & optimise images ─────────────────────────────
+  update-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Pillow
+        run: pip install Pillow --quiet
+
+      - name: Optimise book images
+        run: python optimize-images.py
+
+      - name: Generate story manifest & pages
+        run: python generate-story-manifest.py
+
+      - name: Commit changes
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add images/ story-manifest.json story-dates.json stories/
+          if git diff --staged --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "chore: update story pages & optimise images [skip ci]"
+            git push
+          fi
+
+  # ── 2. Deploy to GitHub Pages ───────────────────────────────────────────────
+  deploy:
+    needs: update-site
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout (with latest commit)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

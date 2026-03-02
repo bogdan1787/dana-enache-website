@@ -288,46 +288,47 @@ body {
   line-height:   1.7;
   margin-bottom: 1.25rem;
 }
+/* Amazon / standard buy — neutral, unobtrusive */
 .buy-btn {
   display:        inline-flex;
   align-items:    center;
   gap:            0.35rem;
   padding:        0.65rem 1.6rem;
-  background:     var(--accent);
-  color:          #fff;
-  border:         1px solid transparent;
+  background:     var(--surface);
+  color:          var(--muted);
+  border:         1px solid var(--border);
   border-radius:  var(--radius);
   font-size:      0.82rem;
-  font-weight:    600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  transition:     background var(--transition), box-shadow var(--transition), transform var(--transition);
+  font-weight:    500;
+  letter-spacing: 0.04em;
+  transition:     border-color var(--transition), color var(--transition);
 }
 .buy-btn:hover {
-  background:  var(--accent-hover);
-  box-shadow:  0 0 22px rgba(204, 34, 34, 0.45);
-  transform:   translateY(-1px);
+  border-color: var(--accent);
+  color:        var(--text);
 }
-/* Secondary buy action (signed copy) inside a .book-actions group */
+/* Signed copy — primary CTA, most important action */
 .book-actions .ghost-btn {
-  font-size:   0.82rem;
-  font-weight: 500;
-  padding:     0.65rem 1.6rem;
-  border:      1px solid rgba(139, 26, 26, 0.45);
-  color:       var(--muted);
-  font-style:  italic;
-  letter-spacing: 0.03em;
+  background:     var(--accent);
+  border:         1px solid transparent;
+  color:          #fff;
+  font-size:      0.82rem;
+  font-weight:    600;
+  padding:        0.65rem 1.6rem;
+  font-style:     italic;
+  letter-spacing: 0.04em;
+  transition:     background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 .book-actions .ghost-btn::before {
-  content:      '✒\FE0E\00A0';
-  font-style:   normal;
-  font-size:    0.85em;
-  opacity:      0.7;
+  content:    '✒\FE0E\00A0';
+  font-style: normal;
+  font-size:  0.85em;
 }
 .book-actions .ghost-btn:hover {
-  background:  rgba(139, 26, 26, 0.12);
-  border-color: var(--accent-hover);
-  color:        var(--accent-hover);
+  background: var(--accent-hover);
+  box-shadow: 0 0 22px rgba(204, 34, 34, 0.45);
+  transform:  translateY(-1px);
+}
   box-shadow:   none;
 }
 
