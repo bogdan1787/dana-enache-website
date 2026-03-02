@@ -78,11 +78,6 @@ STORY_PAGE_TEMPLATE = """\
     </div>
   </article>
 
-  <footer class="site-footer">
-    <p>&copy; <span id="footerYear"></span> Dana Enache &mdash; All rights reserved.</p>
-    <p style="margin-top:0.5rem"><a href="../../stories.html" style="color:var(--accent-hover)">← Back to all stories</a></p>
-  </footer>
-
   <section class="story-comments">
     <div class="story-page-inner">
       <h2 class="story-comments-title">Comments</h2>
@@ -94,8 +89,25 @@ STORY_PAGE_TEMPLATE = """\
         data-page-title="{title}"
       ></div>
       <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+      <script>
+        (function() {{
+          function syncTheme() {{
+            if (window.CUSDIS) {{
+              var t = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+              window.CUSDIS.setTheme(t);
+            }}
+          }}
+          document.addEventListener('cusdis:iframe-loaded', syncTheme);
+          new MutationObserver(syncTheme).observe(document.documentElement, {{ attributes: true, attributeFilter: ['data-theme'] }});
+        }})();
+      </script>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="footerYear"></span> Dana Enache &mdash; All rights reserved.</p>
+    <p style="margin-top:0.5rem"><a href="../../stories.html" style="color:var(--accent-hover)">← Back to all stories</a></p>
+  </footer>
 
   <script src="../../theme.js"></script>
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>

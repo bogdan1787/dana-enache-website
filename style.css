@@ -520,6 +520,12 @@ body {
   margin-bottom: 1.5rem;
   color:         var(--text);
 }
+/* Cusdis iframe — no border, full width, no scrollbar */
+#cusdis_thread iframe {
+  width:  100% !important;
+  border: none !important;
+  overflow: hidden !important;
+}
 
 /* ── About Section ──────────────────────────────────────────── */
 .about-section {
