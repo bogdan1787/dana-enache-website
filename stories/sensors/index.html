@@ -76,18 +76,20 @@
         data-page-url="https://danaenache.com/stories/sensors/"
         data-page-title="Sensors"
       ></div>
+      <script>
+        /* Set data-theme BEFORE cusdis.es.js loads so it picks up the right theme at init */
+        (function() {
+          var t = localStorage.getItem('de-theme') || 'dark';
+          document.getElementById('cusdis_thread').dataset.theme = t;
+        })();
+      </script>
       <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
       <script>
-        (function() {
-          function syncTheme() {
-            if (window.CUSDIS) {
-              var t = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
-              window.CUSDIS.setTheme(t);
-            }
-          }
-          document.addEventListener('cusdis:iframe-loaded', syncTheme);
-          new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-        })();
+        /* Keep theme in sync when user toggles it after load */
+        new MutationObserver(function() {
+          var t = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+          if (window.CUSDIS) window.CUSDIS.setTheme(t);
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       </script>
     </div>
   </section>
