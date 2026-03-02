@@ -30,6 +30,12 @@
   --text:  #f0ede8;
   --muted: #b0a89a;
 }
+/* In light theme the gradient fades to a cream bg — dark oval too small on mobile.
+   Override to a fully-dark gradient so text is always readable at any viewport size. */
+[data-theme="light"] .hero,
+[data-theme="light"] .page-hero {
+  background: radial-gradient(ellipse at center, #2a0808 0%, #1a0a0a 60%, #1e0d0d 100%);
+}
 
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
