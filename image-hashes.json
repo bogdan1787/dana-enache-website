@@ -1,42 +1,42 @@
 {
   "images/abstract/abstract.jpg": {
     "h": 1600,
-    "hash": "079586b0547a33ab0ab8f881f70f5d53c1e2daac5579fbf28f57c3aa727efd86",
+    "hash": "7421c027b2f6bf3b9f52d357cf5109c8fdaad09e117beb13f0121d949b88eeee",
     "w": 2400
   },
   "images/books/author.jpg": {
     "h": 1024,
-    "hash": "f50e57f8acf4b2d74f2df9598a89093e305a85903e38be377dd987eb97979445",
+    "hash": "3d71ee351df953ec9ee1964f1dcca9a4497d7196d4bb25ab327f19023be625cb",
     "w": 1024
   },
   "images/books/evolution.jpg": {
     "h": 477,
-    "hash": "dad0c131336bc6d1f61fc5a91cecebb41b4cd83dbc4da443456a65a66fa48f54",
+    "hash": "723814421aac10d4aa1ef422a716e2d804268c7d537c01ae37dbba656bcd41ca",
     "w": 300
   },
   "images/books/on-vacation.jpg": {
     "h": 445,
-    "hash": "07f2043e9ad876db485e0592f7b48af2f080cad1526e972af96f5a345ce309b2",
+    "hash": "b3c717d8eb07ea9a509dd35d93d6b6e8e069bfe5414714a6a3192eb74e5dd933",
     "w": 279
   },
   "images/books/the-dream.jpg": {
     "h": 466,
-    "hash": "634394757a0721e5ae3143c293ba25b6a45dd11806a6744cf636490abc385035",
+    "hash": "1e4433aac979f2f9465f542d6edb65b62f4a51ca4e7c708eef99217a136ca9a7",
     "w": 311
   },
   "images/landscapes/lake.jpg": {
     "h": 1506,
-    "hash": "a86adac16a48c1dffd472a9a82c3834bc7fce2443139b3b272e04388809af6a9",
+    "hash": "8e211b71d74cf6776712ab8c955f7098d7a15ac65794b0a553adf66ecd90796f",
     "w": 2400
   },
   "images/portraits/tree 2.jpg": {
     "h": 1200,
-    "hash": "8a5d0cea40382b8ca3fa89d0aab480de800f3dc0980a4078c36c039b21b9ff37",
+    "hash": "8896eed38669c253b3bc284dace374cfe98c3d39b6118d1e5fae9af512f20e70",
     "w": 1200
   },
   "images/portraits/tree.jpg": {
     "h": 1280,
-    "hash": "fa88d9bdbb35d33fb9fc4acb1fe57a85afb4ee8e3ce2452392a15b6a6191ae6b",
+    "hash": "27afaf04b932a49ab01fe980d19b5b26dd82bb8a789aaeedaf37e14a5fac62d3",
     "w": 1157
   }
 }

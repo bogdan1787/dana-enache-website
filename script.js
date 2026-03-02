@@ -2,12 +2,10 @@
  * script.js — Stories listing page for Dana Enache's website
  */
 
-let allStories  = [];
-let currentLang = 'all';
+let allStories = [];
 
 const storiesGrid = document.getElementById('storiesGrid');
 const emptyState  = document.getElementById('emptyState');
-const filterBtns  = document.querySelectorAll('.filter-btn');
 
 async function loadManifest() {
   try {
@@ -19,12 +17,10 @@ async function loadManifest() {
 
 function renderStories(stories) {
   storiesGrid.innerHTML = '';
-  const filtered = currentLang === 'all' ? stories : stories.filter(s => s.lang === currentLang);
-
-  if (!filtered.length) { emptyState.classList.remove('hidden'); return; }
+  if (!stories.length) { emptyState.classList.remove('hidden'); return; }
   emptyState.classList.add('hidden');
 
-  filtered.forEach(story => {
+  stories.forEach(story => {
     const dateStr = story.added
       ? new Date(story.added).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })
       : '';
@@ -52,15 +48,6 @@ function renderStories(stories) {
     storiesGrid.appendChild(card);
   });
 }
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentLang = btn.dataset.lang;
-    renderStories(allStories);
-  });
-});
 
 (async () => {
   const manifest = await loadManifest();
