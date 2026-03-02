@@ -33,7 +33,12 @@ function renderStories(stories) {
     card.className = 'story-card';
     card.href      = `stories/${story.slug}/`;
 
+    const coverHtml = story.cover
+      ? `<div class="story-card-cover"><img src="${story.cover}" alt="${story.title}" loading="lazy" /></div>`
+      : '';
+
     card.innerHTML = `
+      ${coverHtml}
       <div class="story-card-body">
         <div class="story-meta">
           <span class="badge badge-${story.lang}">${story.lang.toUpperCase()}</span>

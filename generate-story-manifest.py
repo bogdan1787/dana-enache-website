@@ -1,7 +1,10 @@
 import os
 import json
 import html
+import re
 from datetime import datetime
+
+URL_RE = re.compile(r'(https?://\S+)')
 
 STORIES_DIR   = 'stories'
 MANIFEST_FILE = 'story-manifest.json'
@@ -36,7 +39,7 @@ STORY_PAGE_TEMPLATE = """\
   <meta property="og:title"       content="{title} — Dana Enache" />
   <meta property="og:description" content="{excerpt}" />
   <meta property="og:url"         content="https://danaenache.com/stories/{slug}/" />
-  <link rel="canonical" href="https://danaenache.com/stories/{slug}/" />
+{og_image_html}  <link rel="canonical" href="https://danaenache.com/stories/{slug}/" />
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -69,7 +72,7 @@ STORY_PAGE_TEMPLATE = """\
           {date_html}
         </div>
       </header>
-      <div class="story-page-body">
+{cover_html}      <div class="story-page-body">
 {body_html}
       </div>
     </div>
@@ -99,16 +102,31 @@ def title_from_slug(slug):
         return SPECIAL_TITLES[slug]
     return slug.replace('-', ' ').title()
 
+def _linkify_escape_line(line):
+    """HTML-escape a line of text, converting bare URLs to clickable links."""
+    parts = URL_RE.split(line)
+    out = ''
+    for i, part in enumerate(parts):
+        if i % 2 == 1:  # URL capture group
+            url = part.rstrip('.,;:!?)\'"')
+            suffix = part[len(url):]
+            eu = html.escape(url)
+            out += f'<a href="{eu}" target="_blank" rel="noopener noreferrer">{eu}</a>'
+            out += html.escape(suffix)
+        else:
+            out += html.escape(part)
+    return out
+
 def text_to_html(text):
-    """Convert plain text paragraphs to HTML <p> tags."""
+    """Convert plain text paragraphs to HTML <p> tags with clickable URLs."""
     paragraphs = text.strip().split('\n\n')
     lines = []
     for para in paragraphs:
         para = para.strip()
         if not para:
             continue
-        escaped = html.escape(para).replace('\n', '<br />\n')
-        lines.append(f'        <p>{escaped}</p>')
+        inner = '<br />\n'.join(_linkify_escape_line(l) for l in para.split('\n'))
+        lines.append(f'        <p>{inner}</p>')
     return '\n'.join(lines)
 
 def main():
@@ -137,10 +155,12 @@ def main():
         title   = title_from_slug(slug)
 
         cover = None
-        for ext in ['jpg', 'png', 'webp']:
-            cover_path = os.path.join(story_path, f'cover.{ext}')
-            if os.path.isfile(cover_path):
-                cover = f'stories/{slug}/cover.{ext}'
+        cover_filename = None
+        image_exts = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
+        for fname in sorted(os.listdir(story_path)):
+            if os.path.splitext(fname)[1].lower() in image_exts:
+                cover = f'stories/{slug}/{fname}'
+                cover_filename = fname
                 break
 
         if slug not in story_dates:
@@ -162,6 +182,12 @@ def main():
         # Generate individual story HTML page
         date_html = f'<span class="story-page-date">{added}</span>' if added else ''
         body_html = text_to_html(text)
+        if cover_filename:
+            og_image_html = f'  <meta property="og:image" content="https://danaenache.com/stories/{slug}/{cover_filename}" />\n'
+            cover_html    = f'      <figure class="story-cover">\n        <img src="{cover_filename}" alt="{html.escape(title)}" loading="lazy" />\n      </figure>\n'
+        else:
+            og_image_html = ''
+            cover_html    = ''
         page_html = STORY_PAGE_TEMPLATE.format(
             lang=lang,
             lang_upper=lang.upper(),
@@ -170,6 +196,8 @@ def main():
             excerpt=html.escape(excerpt),
             date_html=date_html,
             body_html=body_html,
+            og_image_html=og_image_html,
+            cover_html=cover_html,
         )
         page_path = os.path.join(story_path, 'index.html')
         with open(page_path, 'w', encoding='utf-8') as f:
