@@ -800,11 +800,14 @@ body {
   margin-bottom: 1.5rem;
   color:         var(--text);
 }
-/* Cusdis iframe — no border, full width, no scrollbar */
+/* Cusdis iframe — no border, full width, auto height via postMessage */
 #cusdis_thread iframe {
-  width:  100% !important;
-  border: none !important;
-  overflow: hidden !important;
+  width:       100% !important;
+  min-height:  200px;
+  border:      none !important;
+  overflow:    hidden !important;
+  display:     block;
+  transition:  height 0.2s ease;
 }
 
 /* ── About Section ──────────────────────────────────────────── */

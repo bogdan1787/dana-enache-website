@@ -139,6 +139,12 @@ STORY_PAGE_TEMPLATE = """\
       </script>
       <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
       <script>
+        /* Auto-resize iframe to full content height — no internal scroll */
+        window.addEventListener('message', function(e) {{
+          if (!e.data || e.data.from !== 'cusdis') return;
+          var iframe = document.querySelector('#cusdis_thread iframe');
+          if (iframe && e.data.height) iframe.style.height = e.data.height + 'px';
+        }});
         /* Keep theme in sync when user toggles it after load */
         new MutationObserver(function() {{
           var t = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
