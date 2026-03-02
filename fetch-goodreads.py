@@ -106,11 +106,10 @@ def main():
       badge.target      = '_blank';
       badge.rel         = 'noopener noreferrer';
       badge.className   = 'gr-badge';
-      badge.setAttribute('aria-label', d.rating + ' out of 5 stars on Goodreads (' + d.count + ' ratings)');
+      badge.setAttribute('aria-label', d.rating + ' out of 5 stars on Goodreads');
       badge.innerHTML   =
         stars(d.rating) +
         '<span class="gr-score">' + d.rating.toFixed(2) + '</span>' +
-        '<span class="gr-count">' + d.count + ' ratings</span>' +
         '<span class="gr-logo">Goodreads</span>';
       el.appendChild(badge);
     }});

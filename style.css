@@ -361,8 +361,7 @@ body {
   font-weight: 600;
   color:       var(--text);
   font-size:   0.85rem;
-}
-.gr-count { color: var(--muted); }
+}
 .gr-logo {
   font-size:   0.72rem;
   color:       var(--muted);
