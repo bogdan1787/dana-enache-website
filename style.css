@@ -23,9 +23,13 @@
   --text:    #1a1a1a;
   --muted:   #555555;
 }
-/* Hero/page-hero have a dark gradient bg regardless of theme — keep text light */
+/* Hero/page-hero have a dark gradient bg regardless of theme — always use light text vars */
 .hero,
-.page-hero { color: #f0ede8; }
+.page-hero {
+  color:   #f0ede8;
+  --text:  #f0ede8;
+  --muted: #b0a89a;
+}
 
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
