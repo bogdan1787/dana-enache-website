@@ -35,11 +35,16 @@ STORY_PAGE_TEMPLATE = """\
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title} — Dana Enache</title>
   <meta name="description" content="{excerpt}" />
-  <meta property="og:type"        content="article" />
-  <meta property="og:site_name"   content="Dana Enache — Horror Author" />
-  <meta property="og:title"       content="{title} — Dana Enache" />
-  <meta property="og:description" content="{excerpt}" />
-  <meta property="og:url"         content="https://danaenache.com/stories/{slug}/" />
+  <meta name="keywords"    content="Dana Enache, horror story, {title}, dark fiction, psychological horror" />
+  <meta name="author"      content="Dana Enache" />
+  <meta property="og:type"               content="article" />
+  <meta property="og:site_name"          content="Dana Enache — Horror Author" />
+  <meta property="og:title"              content="{title} — Dana Enache" />
+  <meta property="og:description"        content="{excerpt}" />
+  <meta property="og:url"                content="https://danaenache.com/stories/{slug}/" />
+  <meta property="article:author"        content="https://danaenache.com/about.html" />
+  <meta property="article:published_time" content="{added}T00:00:00Z" />
+  <meta property="article:section"       content="Horror Fiction" />
 {og_image_html}  <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:site"        content="@danaenache_com" />
   <meta name="twitter:title"       content="{title} — Dana Enache" />
@@ -50,11 +55,13 @@ STORY_PAGE_TEMPLATE = """\
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "{title}",
-    "author": {{ "@type": "Person", "name": "Dana Enache", "url": "https://danaenache.com/" }},
+    "name": "{title}",
+    "author": {{ "@id": "https://danaenache.com/#author" }},
+    "publisher": {{ "@id": "https://danaenache.com/#author" }},
     "datePublished": "{added}",
     "inLanguage": "{lang}",
     "url": "https://danaenache.com/stories/{slug}/",
-    "publisher": {{ "@type": "Person", "name": "Dana Enache", "url": "https://danaenache.com/" }}{article_image_json}
+    "mainEntityOfPage": "https://danaenache.com/stories/{slug}/"{article_image_json}
   }}
   </script>
   <script type="application/ld+json">
