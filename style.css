@@ -675,6 +675,75 @@ body {
 }
 .story-page-body p  { margin-bottom: 1.4em; }
 .story-page-body em { color: var(--muted); font-style: italic; }
+
+/* ── Story Next ─────────────────────────────────────────────── */
+.story-next { border-top: 1px solid var(--border); }
+.story-next .story-page-inner { padding-top: 0; padding-bottom: 0; }
+.story-next-card {
+  display:         flex;
+  align-items:     center;
+  gap:             1.5rem;
+  padding:         1.5rem 0;
+  text-decoration: none;
+  color:           var(--text);
+  transition:      background var(--transition);
+}
+.story-next-card:hover { color: var(--text); }
+.story-next-card:hover .story-next-title { color: var(--accent-hover); }
+.story-next-cover {
+  width:       80px;
+  height:      80px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow:    hidden;
+  border:      1px solid var(--border);
+}
+.story-next-cover img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  filter:     grayscale(30%) brightness(0.8);
+  transition: filter var(--transition);
+}
+.story-next-card:hover .story-next-cover img { filter: grayscale(0%) brightness(0.95); }
+.story-next-info {
+  flex:    1;
+  display: flex;
+  flex-direction: column;
+  gap:     0.25rem;
+}
+.story-next-label {
+  font-size:      0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color:          var(--accent-hover);
+  font-weight:    500;
+}
+.story-next-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size:   1.1rem;
+  font-weight: 600;
+  transition:  color var(--transition);
+}
+.story-next-excerpt {
+  font-size:   0.85rem;
+  color:       var(--muted);
+  line-height: 1.5;
+  display:     -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:    hidden;
+}
+.story-next-arrow {
+  font-size:  1.4rem;
+  color:      var(--accent);
+  flex-shrink: 0;
+  transition: transform var(--transition), color var(--transition);
+}
+.story-next-card:hover .story-next-arrow {
+  transform: translateX(6px);
+  color:     var(--accent-hover);
+}
 
 /* ── Story Comments (Cusdis) ────────────────────────────────── */
 .story-comments {

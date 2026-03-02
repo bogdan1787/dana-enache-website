@@ -1,0 +1,22 @@
+{
+  "images/books/author.jpg": {
+    "h": 1440,
+    "hash": "730d9b6f2655d8f71a1981bd5c698eb56509348b3e105a824524c52223826b8c",
+    "w": 1440
+  },
+  "images/books/evolution.jpg": {
+    "h": 477,
+    "hash": "9e1217ab74d0c3686926de1cdd14cf0797af25e79fc5e251f894339afe143e4b",
+    "w": 300
+  },
+  "images/books/on-vacation.jpg": {
+    "h": 445,
+    "hash": "d492b5610ed5edba8a9e06fc7568d7cb93eba0fab937c958eec1d0ce1e4abc05",
+    "w": 279
+  },
+  "images/books/the-dream.jpg": {
+    "h": 466,
+    "hash": "2c60f1c684dbb4e6c8e19a0f7d19c8b140cb1789d474ae2701883b06950128ed",
+    "w": 311
+  }
+}

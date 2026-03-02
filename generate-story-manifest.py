@@ -119,6 +119,7 @@ STORY_PAGE_TEMPLATE = """\
     </div>
   </article>
 
+{next_story_html}
   <section class="story-comments">
     <div class="story-page-inner">
       <h2 class="story-comments-title">Comments</h2>
@@ -198,6 +199,31 @@ def text_to_html(text):
         lines.append(f'        <p>{inner}</p>')
     return '\n'.join(lines)
 
+def make_next_story_html(next_s):
+    """Build the next-story section HTML, or empty string if none."""
+    if not next_s:
+        return ''
+    cover_img = ''
+    if next_s.get('cover'):
+        cover_filename = os.path.basename(next_s['cover'])
+        cover_img = f'<img src="../../stories/{next_s["slug"]}/{cover_filename}" alt="{html.escape(next_s["title"])}" />'
+    excerpt = next_s['excerpt'][:120] + ('…' if len(next_s['excerpt']) > 120 else '')
+    return f'''  <section class="story-next">
+    <div class="story-page-inner">
+      <a href="../../stories/{next_s["slug"]}/" class="story-next-card">
+        {f'<div class="story-next-cover">{cover_img}</div>' if cover_img else ''}
+        <div class="story-next-info">
+          <span class="story-next-label">Next Story</span>
+          <span class="story-next-title">{html.escape(next_s["title"])}</span>
+          <span class="story-next-excerpt">{html.escape(excerpt)}</span>
+        </div>
+        <span class="story-next-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+'''
+
 def main():
     if os.path.exists(DATES_FILE):
         with open(DATES_FILE, encoding='utf-8') as f:
@@ -206,8 +232,9 @@ def main():
         story_dates = {}
 
     today = datetime.now().strftime('%Y-%m-%d')
-    stories = []
 
+    # ── Pass 1: collect all story data ──────────────────────────
+    raw_stories = []
     for slug in sorted(os.listdir(STORIES_DIR)):
         story_path = os.path.join(STORIES_DIR, slug)
         if not os.path.isdir(story_path):
@@ -236,6 +263,36 @@ def main():
             story_dates[slug] = today
         added = story_dates[slug]
 
+        raw_stories.append({
+            'slug':           slug,
+            'title':          title,
+            'lang':           lang,
+            'file':           f'stories/{slug}/story.txt',
+            'excerpt':        excerpt,
+            'added':          added,
+            'cover':          cover,
+            'cover_filename': cover_filename,
+            'text':           text,
+        })
+
+    # ── Sort newest-first (same order as manifest) ───────────────
+    raw_stories.sort(key=lambda s: s['added'], reverse=True)
+
+    # ── Pass 2: generate pages with next-story context ───────────
+    stories = []
+    for i, s in enumerate(raw_stories):
+        slug           = s['slug']
+        title          = s['title']
+        lang           = s['lang']
+        added          = s['added']
+        cover          = s['cover']
+        cover_filename = s['cover_filename']
+        text           = s['text']
+        excerpt        = s['excerpt']
+
+        # next = older story (one step further in newest-first list)
+        next_s = raw_stories[i + 1] if i + 1 < len(raw_stories) else None
+
         story_obj = {
             'slug':    slug,
             'title':   title,
@@ -261,6 +318,9 @@ def main():
             twitter_image_html = ''
             article_image_json = ''
             cover_html         = ''
+
+        next_story_html = make_next_story_html(next_s)
+
         page_html = STORY_PAGE_TEMPLATE.format(
             lang=lang,
             lang_upper=lang.upper(),
@@ -274,12 +334,12 @@ def main():
             twitter_image_html=twitter_image_html,
             article_image_json=article_image_json,
             cover_html=cover_html,
+            next_story_html=next_story_html,
         )
-        page_path = os.path.join(story_path, 'index.html')
+        story_path = os.path.join(STORIES_DIR, slug)
+        page_path  = os.path.join(story_path, 'index.html')
         with open(page_path, 'w', encoding='utf-8') as f:
             f.write(page_html)
-
-    stories.sort(key=lambda s: s['added'], reverse=True)
 
     manifest = {
         'meta': {
