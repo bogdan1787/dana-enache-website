@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 optimize-images.py
-Resizes, compresses, and watermarks images in-place for web delivery.
+Resizes and compresses images in-place for web delivery.
 
 Run:     python optimize-images.py
 Requires: pip install Pillow  (installed automatically if missing)
@@ -9,12 +9,10 @@ Requires: pip install Pillow  (installed automatically if missing)
 Pipeline per image (runs exactly once per unique file, tracked by SHA-256):
   1. Resize to max 2400 px on longest side
   2. Compress  (JPEG/WebP quality 85, PNG lossless)
-  3. Burn watermark: "© Lavinia Gabriela Enache" — bottom-right, Playfair Display Italic
-  4. Record SHA-256 of final file → stored in image-hashes.json
+  3. Record SHA-256 of final file → stored in image-hashes.json
 
 On subsequent runs the hash is unchanged → step skipped entirely.
-To re-process an image (e.g. after changing watermark text), delete its
-entry from image-hashes.json or delete the file entirely.
+To re-process an image, delete its entry from image-hashes.json or delete the file entirely.
 """
 
 import hashlib
@@ -22,35 +20,21 @@ import json
 from pathlib import Path
 
 try:
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image
 except ImportError:
     import subprocess, sys
     print("Installing Pillow…")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow", "-q"])
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
 IMAGES_DIR    = Path(__file__).parent / "images"
 HASHES_FILE   = Path(__file__).parent / "image-hashes.json"
-FONT_DIR      = Path(__file__).parent / "fonts"
 
-WATERMARK_TEXT = "© Lavinia Gabriela Enache"
 MAX_PX         = 2400    # max width or height for full images
 THUMB_PX       = 400     # max width or height for grid thumbnails
 JPEG_Q         = 85      # JPEG / WebP quality
-
-# Font search order — first found wins
-# The Action installs fonts-urw-base35 (URW Palladio = Palatino-class serif)
-FONT_CANDIDATES = [
-    FONT_DIR / "PlayfairDisplay-Italic.ttf",                                    # bundled
-    Path("/usr/share/fonts/opentype/urw-base35/URWPalladio-Ita.otf"),           # Ubuntu (Action)
-    Path("/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf"),    # Ubuntu fallback
-    Path("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf"),            # Ubuntu fallback
-    Path("C:/Windows/Fonts/georgiai.ttf"),                                      # Windows (Georgia Italic)
-    Path("C:/Windows/Fonts/timesi.ttf"),                                        # Windows (Times Italic)
-    Path("/System/Library/Fonts/Supplemental/Georgia Italic.ttf"),              # macOS
-]
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -61,72 +45,20 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def find_font() -> Path | None:
-    """Return the first available font path from FONT_CANDIDATES."""
-    for p in FONT_CANDIDATES:
-        if p.exists():
-            return p
-    return None
-
-
-def get_font(size: int) -> ImageFont.FreeTypeFont:
-    path = find_font()
-    if path:
-        try:
-            return ImageFont.truetype(str(path), size)
-        except Exception:
-            pass
-    return ImageFont.load_default()
-
-
-def apply_watermark(img: Image.Image) -> Image.Image:
-    """Burn watermark text into the bottom-right corner."""
-    w, h = img.size
-
-    # Font size: 2.5% of shorter side, clamped 18–52 px
-    font_size = max(18, min(52, int(min(w, h) * 0.025)))
-    font      = get_font(font_size)
-
-    # Measure text on a scratch surface
-    scratch = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
-    bbox    = scratch.textbbox((0, 0), WATERMARK_TEXT, font=font)
-    tw, th  = bbox[2] - bbox[0], bbox[3] - bbox[1]
-
-    margin = int(min(w, h) * 0.018)   # ~1.8% of shorter side
-    x = w - tw - margin
-    y = h - th - margin
-
-    # Work in RGBA for transparency
-    rgba   = img.convert("RGBA")
-    layer  = Image.new("RGBA", rgba.size, (0, 0, 0, 0))
-    draw   = ImageDraw.Draw(layer)
-
-    shadow = max(1, font_size // 20)
-    # Shadow pass (dark, semi-transparent)
-    draw.text((x + shadow, y + shadow), WATERMARK_TEXT,
-              font=font, fill=(0, 0, 0, 130))
-    # Main text (white, semi-transparent)
-    draw.text((x, y), WATERMARK_TEXT,
-              font=font, fill=(255, 255, 255, 195))
-
-    return Image.alpha_composite(rgba, layer)
-
-
-def save_image(result: Image.Image, path: Path):
-    """Save RGBA result to path in its native format."""
+def save_image(img: Image.Image, path: Path):
+    """Save image to path in its native format."""
     fmt = path.suffix.lower()
     if fmt in {".jpg", ".jpeg"}:
-        rgb = Image.new("RGB", result.size, (255, 255, 255))
-        rgb.paste(result, mask=result.split()[3])
+        rgb = img.convert("RGB")
         rgb.save(path, "JPEG", quality=JPEG_Q, optimize=True)
     elif fmt == ".png":
-        result.save(path, "PNG", optimize=True)
+        img.save(path, "PNG", optimize=True)
     elif fmt == ".webp":
-        result.save(path, "WEBP", quality=JPEG_Q, method=6)
+        img.save(path, "WEBP", quality=JPEG_Q, method=6)
 
 
-def generate_thumb(rgba_img: Image.Image, original_path: Path) -> Path:
-    """Save a 400px WebP thumbnail (no watermark) and return its path."""
+def generate_thumb(img: Image.Image, original_path: Path) -> Path:
+    """Save a 400px WebP thumbnail and return its path."""
     thumb_dir = original_path.parent / "thumbs"
     thumb_dir.mkdir(exist_ok=True)
     thumb_path = thumb_dir / (original_path.stem + ".webp")
@@ -136,16 +68,13 @@ def generate_thumb(rgba_img: Image.Image, original_path: Path) -> Path:
         if old.suffix.lower() != ".webp":
             old.unlink()
 
-    thumb = rgba_img.copy()
+    thumb = img.copy()
     thumb.thumbnail((THUMB_PX, THUMB_PX), Image.LANCZOS)
     save_image(thumb, thumb_path)
     return thumb_path
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
-
-used_font = find_font()
-print(f"  Font: {used_font or 'PIL default (no system font found)'}")
 
 hashes: dict = {}
 if HASHES_FILE.exists():
@@ -182,11 +111,10 @@ for img_path in sorted(IMAGES_DIR.rglob("*")):
             if max(w, h) > MAX_PX:
                 img.thumbnail((MAX_PX, MAX_PX), Image.LANCZOS)
             final_w, final_h = img.size
-
-            result = apply_watermark(img)
+            result = img.copy()
 
         save_image(result, img_path)
-        generate_thumb(result, img_path)   # 400px thumbnail, no watermark
+        generate_thumb(result, img_path)
 
         new_size    = img_path.stat().st_size
         saving      = round((1 - new_size / orig_size) * 100) if orig_size else 0
