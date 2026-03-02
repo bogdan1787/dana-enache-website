@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-03-02T16:13:58",
-    "count": 18
+    "generated": "2026-03-02T16:21:52",
+    "count": 12
   },
   "stories": [
     {
@@ -69,28 +69,12 @@
       "added": "2024-10-31"
     },
     {
-      "slug": "oameni-cu-fete-monotone",
-      "title": "Oameni cu Fețe Monotone",
-      "lang": "ro",
-      "file": "stories/oameni-cu-fete-monotone/story.txt",
-      "excerpt": "Când plâng, oamenii cu fețe monotone își lungesc gâturile de parcă ar vrea să ajungă la cer, să atingă stelele cu frunțile lor netede peste care nu a trecut niciun rid, iar mâinile lor, ca doi clești uriași, își cască de",
-      "added": "2023-11-07"
-    },
-    {
       "slug": "love",
       "title": "Love",
       "lang": "en",
       "file": "stories/love/story.txt",
       "excerpt": "“It’s all about perspective. And a little distance I guess. Some things are just better when viewed from afar.  Take my face for example. If I sit down on my chair and look at my skin in the mirror without leaning forwar",
       "added": "2023-02-28"
-    },
-    {
-      "slug": "copilul-din-vis",
-      "title": "Copilul din Vis",
-      "lang": "ro",
-      "file": "stories/copilul-din-vis/story.txt",
-      "excerpt": "Când a deschis ochii, în fața lui era copilul din vis. Numai că de data asta pe obrajii lui erau lacrimi.  Preț de câteva minute, Iancu a crezut că încă doarme, deși nu își putea da seama cum e posibil să fie conștient d",
-      "added": "2023-01-26"
     },
     {
       "slug": "soul",
@@ -101,44 +85,12 @@
       "added": "2022-01-29"
     },
     {
-      "slug": "omul-verde",
-      "title": "Omul Verde",
-      "lang": "ro",
-      "file": "stories/omul-verde/story.txt",
-      "excerpt": "Totul a început într-o dimineață de weekend când Marian s-a dus la toaletă să-și goalească vezica și s-a scărpinat neprotocolar în fund. A tras apa, s-a spălat pe mâini și s-a scărpinat din nou în același loc. Iar în tim",
-      "added": "2021-05-16"
-    },
-    {
-      "slug": "constanta",
-      "title": "Constanța",
-      "lang": "ro",
-      "file": "stories/constanta/story.txt",
-      "excerpt": "șiroaie de oameni curgând pe străzile orașului  unde am copilărit,  îmbulziți în autobuze cu scaune galbene  și miros de urină,  cu gume de mestecat lipite asimetric  pe sub scaune.  amalgam de amintiri cu veri lungi  cu",
-      "added": "2021-04-18"
-    },
-    {
       "slug": "sensors",
       "title": "Sensors",
       "lang": "en",
       "file": "stories/sensors/story.txt",
       "excerpt": "Do you know why those sensors that sometimes exist in a house are good? Well… not only to protect from burglars. Who has time anyway to arm the house every time they leave?               Those sensors that blink or make",
       "added": "2021-03-27"
-    },
-    {
-      "slug": "naluca",
-      "title": "Năluca",
-      "lang": "ro",
-      "file": "stories/naluca/story.txt",
-      "excerpt": "Îi simțea mirosul. Era același miros de putrezit pe care îl știa din copilărie când maică-sa lăsa la soare hălci de carne, atârnate de fire de ață împuțite, pe care apoi le pregătea în fel de fel de tocănițe și fripturi.",
-      "added": "2021-03-14"
-    },
-    {
-      "slug": "3",
-      "title": "3",
-      "lang": "ro",
-      "file": "stories/3/story.txt",
-      "excerpt": "RO version  trei în mine, prin mine, cu mine veșnic. doar unul pe cea mai înaltă ramură din copac, sub soare blând. iar doi jos – pământ.  ENG version  three in me, through me, with me forever. just one on the highest tr",
-      "added": "2021-03-03"
     },
     {
       "slug": "thing",
