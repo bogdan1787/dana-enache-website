@@ -230,15 +230,20 @@ body {
 
 /* ── Ghost Button ───────────────────────────────────────────── */
 .ghost-btn {
-  display:       inline-block;
-  padding:       0.7rem 1.8rem;
-  border:        1px solid var(--accent);
-  color:         var(--accent-hover);
-  border-radius: var(--radius);
-  font-size:     0.95rem;
-  transition:    background var(--transition), color var(--transition);
+  display:        inline-block;
+  padding:        0.65rem 1.6rem;
+  border:         1px solid var(--accent);
+  color:          var(--accent-hover);
+  border-radius:  var(--radius);
+  font-size:      0.88rem;
+  letter-spacing: 0.03em;
+  transition:     background var(--transition), color var(--transition), box-shadow var(--transition);
 }
-.ghost-btn:hover { background: var(--accent); color: #fff; }
+.ghost-btn:hover {
+  background:  var(--accent);
+  color:       #fff;
+  box-shadow:  0 0 14px rgba(139, 26, 26, 0.35);
+}
 
 /* ── Books Grid ─────────────────────────────────────────────── */
 .books-grid {
@@ -278,18 +283,46 @@ body {
   margin-bottom: 1.25rem;
 }
 .buy-btn {
-  display:       inline-block;
-  padding:       0.55rem 1.4rem;
-  background:    var(--accent);
-  color:         #fff;
-  border-radius: var(--radius);
-  font-size:     0.88rem;
-  font-weight:   500;
-  transition:    background var(--transition), box-shadow var(--transition);
+  display:        inline-flex;
+  align-items:    center;
+  gap:            0.35rem;
+  padding:        0.65rem 1.6rem;
+  background:     var(--accent);
+  color:          #fff;
+  border:         1px solid transparent;
+  border-radius:  var(--radius);
+  font-size:      0.82rem;
+  font-weight:    600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition:     background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 .buy-btn:hover {
-  background: var(--accent-hover);
-  box-shadow: 0 0 14px rgba(204, 34, 34, 0.4);
+  background:  var(--accent-hover);
+  box-shadow:  0 0 22px rgba(204, 34, 34, 0.45);
+  transform:   translateY(-1px);
+}
+/* Secondary buy action (signed copy) inside a .book-actions group */
+.book-actions .ghost-btn {
+  font-size:   0.82rem;
+  font-weight: 500;
+  padding:     0.65rem 1.6rem;
+  border:      1px solid rgba(139, 26, 26, 0.45);
+  color:       var(--muted);
+  font-style:  italic;
+  letter-spacing: 0.03em;
+}
+.book-actions .ghost-btn::before {
+  content:      '✒\FE0E\00A0';
+  font-style:   normal;
+  font-size:    0.85em;
+  opacity:      0.7;
+}
+.book-actions .ghost-btn:hover {
+  background:  rgba(139, 26, 26, 0.12);
+  border-color: var(--accent-hover);
+  color:        var(--accent-hover);
+  box-shadow:   none;
 }
 
 /* ── Book Detail (books page) ───────────────────────────────── */
