@@ -9,7 +9,7 @@ const emptyState  = document.getElementById('emptyState');
 
 async function loadManifest() {
   try {
-    const res = await fetch('story-manifest.json', { cache: 'no-cache' });
+    const res = await fetch('/story-manifest.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error();
     return await res.json();
   } catch { return null; }
@@ -27,10 +27,10 @@ function renderStories(stories) {
 
     const card = document.createElement('a');
     card.className = 'story-card';
-    card.href      = `stories/${story.slug}/`;
+    card.href      = `/stories/${story.slug}/`;
 
     const coverHtml = story.cover
-      ? `<div class="story-card-cover"><img src="${story.cover}" alt="${story.title}" loading="lazy" /></div>`
+      ? `<div class="story-card-cover"><img src="/${story.cover}" alt="${story.title}" loading="lazy" /></div>`
       : '';
 
     card.innerHTML = `

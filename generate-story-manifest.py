@@ -42,7 +42,7 @@ STORY_PAGE_TEMPLATE = """\
   <meta property="og:title"              content="{title} — Dana Enache" />
   <meta property="og:description"        content="{excerpt}" />
   <meta property="og:url"                content="https://danaenache.com/stories/{slug}/" />
-  <meta property="article:author"        content="https://danaenache.com/about.html" />
+  <meta property="article:author"        content="https://danaenache.com/about-me/" />
   <meta property="article:published_time" content="{added}T00:00:00Z" />
   <meta property="article:section"       content="Horror Fiction" />
 {og_image_html}  <meta name="twitter:card"        content="summary_large_image" />
@@ -90,8 +90,8 @@ STORY_PAGE_TEMPLATE = """\
       <div class="nav-links">
         <a href="../../" class="nav-link">Home</a>
         <a href="../../books/" class="nav-link">Books</a>
-        <a href="../../stories.html" class="nav-link active">Stories</a>
-        <a href="../../about.html" class="nav-link">About</a>
+        <a href="../../stories/" class="nav-link active">Stories</a>
+        <a href="../../about-me/" class="nav-link">About</a>
       </div>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
     </div>
@@ -102,7 +102,7 @@ STORY_PAGE_TEMPLATE = """\
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
           <li><a href="../../">Home</a></li>
-          <li><a href="../../stories.html">Stories</a></li>
+          <li><a href="../../stories/">Stories</a></li>
           <li aria-current="page">{title}</li>
         </ol>
       </nav>
@@ -156,7 +156,7 @@ STORY_PAGE_TEMPLATE = """\
 
   <footer class="site-footer">
     <p>&copy; <span id="footerYear"></span> Dana Enache &mdash; All rights reserved.</p>
-    <p style="margin-top:0.5rem"><a href="../../stories.html" style="color:var(--accent-hover)">← Back to all stories</a></p>
+    <p style="margin-top:0.5rem"><a href="../../stories/" style="color:var(--accent-hover)">← Back to all stories</a></p>
   </footer>
 
   <script src="../../theme.js"></script>
