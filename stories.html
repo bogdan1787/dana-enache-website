@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stories — Dana Enache</title>
+  <meta name="description" content="Free short horror stories by Dana Enache." />
+  <link rel="canonical" href="https://danaenache.com/stories.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script>(function(){var t=localStorage.getItem('de-theme')||'dark';document.documentElement.dataset.theme=t;})()</script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Dana Enache</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="books.html" class="nav-link">Books</a>
+        <a href="stories.html" class="nav-link active">Stories</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero">
+    <div class="hero-inner">
+      <h1 class="page-hero-title">Free Stories</h1>
+      <p class="hero-tagline">Horror &amp; Dark Fiction</p>
+    </div>
+  </header>
+
+  <!-- FILTER -->
+  <div class="stories-filter" id="storiesFilter">
+    <button class="filter-btn active" data-lang="all">All</button>
+    <button class="filter-btn" data-lang="en">English</button>
+    <button class="filter-btn" data-lang="ro">Romanian</button>
+  </div>
+
+  <!-- STORIES GRID -->
+  <main class="section" id="storiesSection">
+    <div class="section-inner">
+      <div class="stories-grid" id="storiesGrid">
+        <!-- injected by script.js -->
+      </div>
+      <div class="empty-state hidden" id="emptyState">
+        <p>No stories found.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- STORY READER MODAL -->
+  <div class="story-modal hidden" id="storyModal" role="dialog" aria-modal="true" aria-label="Story reader">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-inner">
+      <button class="modal-close" id="modalClose" aria-label="Close">&#x2715;</button>
+      <div class="modal-cover-wrap" id="modalCoverWrap"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-date" id="modalDate"></p>
+      <div class="modal-body" id="modalBody">
+        <p class="modal-loading">Loading story…</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="footerYear"></span> Dana Enache &mdash; All rights reserved.</p>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

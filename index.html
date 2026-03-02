@@ -3,89 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lavinia Gabriela Enache — Art &amp; Illustration</title>
-  <!-- Social sharing (Open Graph + Twitter card) -->
-  <meta name="description"         content="Art and illustrations by Lavinia Gabriela Enache" />
-  <link rel="canonical" href="https://laviniaenache.com/" />
-  <meta property="og:type"         content="website" />
-  <meta property="og:url"          content="https://laviniaenache.com/" />
-  <meta property="og:title"        content="Lavinia Gabriela Enache — Art &amp; Illustration" />
-  <meta property="og:description"  content="Art and illustrations by Lavinia Gabriela Enache" />
-  <meta property="og:image"        content="https://laviniaenache.com/og-preview.jpg" />
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Lavinia Gabriela Enache — Art &amp; Illustration" />
-  <meta name="twitter:image"       content="https://laviniaenache.com/og-preview.jpg" />
+  <title>Dana Enache — Horror Author</title>
+  <meta name="description" content="Dana Enache — Horror author of Evolution, On Vacation, and The Dream. Order personalized horror stories." />
+  <link rel="canonical" href="https://danaenache.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://danaenache.com/" />
+  <meta property="og:title" content="Dana Enache — Horror Author" />
+  <meta property="og:description" content="Your story. Your fears. Your horror." />
+  <meta property="og:image" content="https://danaenache.com/og-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Prevent flash of wrong theme before CSS loads -->
-  <script>(function(){var t=localStorage.getItem('lgfe-theme')||'dark';document.documentElement.dataset.theme=t;})()</script>
+  <script>(function(){var t=localStorage.getItem('de-theme')||'dark';document.documentElement.dataset.theme=t;})()</script>
 </head>
 <body>
 
-  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <!-- NAV -->
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Dana Enache</a>
+      <div class="nav-links">
+        <a href="/" class="nav-link active">Home</a>
+        <a href="books.html" class="nav-link">Books</a>
+        <a href="stories.html" class="nav-link">Stories</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
   <header class="hero">
     <div class="hero-inner">
-      <h1 class="artist-name" id="artistName">Lavinia Gabriela Enache</h1>
-      <p  class="artist-tagline" id="artistTagline">Artist &amp; Illustrator</p>
+      <p class="hero-skull">💀</p>
+      <h1 class="hero-title">Dana Enache</h1>
+      <p class="hero-tagline">Your story. Your fears. Your horror.</p>
+      <p class="hero-sub">Ready to be scared by something that knows your name?</p>
+      <a href="https://www.paypal.com/ncp/payment/PUWBJ5ZTZ93PW" class="hero-cta" target="_blank" rel="noopener">Order Personalized Story</a>
     </div>
   </header>
 
-  <!-- ── CATEGORY NAV ─────────────────────────────────────────────────── -->
-  <nav class="cat-nav" id="catNav" aria-label="Filter by category">
-    <button class="nav-scroll-btn hidden" id="navScrollLeft"  aria-label="Scroll categories left"  tabindex="-1">&#x276E;</button>
-    <div class="cat-nav-scroll" id="catNavScroll">
-      <div class="cat-nav-inner">
-        <button class="cat-btn active" data-slug="all">All</button>
-        <!-- injected by script.js -->
+  <!-- FEATURED BOOKS -->
+  <section class="section" id="books">
+    <div class="section-inner">
+      <h2 class="section-title">Books</h2>
+      <div class="books-grid">
+        <article class="book-card">
+          <img src="images/books/evolution.jpg" alt="Evolution by Dana Enache" loading="lazy" />
+          <div class="book-info">
+            <h3 class="book-title">Evolution</h3>
+            <p class="book-synopsis">Humanity has evolved. In a world divided between MET 1 and MET 2 abilities, Jack wakes up 160 years later with unexpected powers — and finds himself at the center of a war for dominance.</p>
+            <a href="books.html#evolution" class="buy-btn">Read More</a>
+          </div>
+        </article>
+        <article class="book-card">
+          <img src="images/books/on-vacation.jpg" alt="On Vacation by Dana Enache" loading="lazy" />
+          <div class="book-info">
+            <h3 class="book-title">On Vacation</h3>
+            <p class="book-synopsis">A dream holiday on a private island. But the hotel workers keep disturbing secrets, and the monster in the shadows is always hungry for fresh meat.</p>
+            <a href="https://www.amazon.com/VACATION-Dana-Enache/dp/B0CW5PYJBB" class="buy-btn" target="_blank" rel="noopener">Buy on Amazon</a>
+          </div>
+        </article>
+        <article class="book-card">
+          <img src="images/books/the-dream.jpg" alt="The Dream by Dana Enache" loading="lazy" />
+          <div class="book-info">
+            <h3 class="book-title">The Dream</h3>
+            <p class="book-synopsis">A collection of short horror and psychological stories that plays with agony, fear and trauma. Which one will be your favourite?</p>
+            <a href="https://www.amazon.com/Dream-Dana-Enache/dp/B0B1CC3FPP" class="buy-btn" target="_blank" rel="noopener">Buy on Amazon</a>
+          </div>
+        </article>
+      </div>
+      <div class="section-more">
+        <a href="stories.html" class="ghost-btn">Read Free Stories →</a>
       </div>
     </div>
-    <button class="nav-scroll-btn hidden" id="navScrollRight" aria-label="Scroll categories right" tabindex="-1">&#x276F;</button>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
-  </nav>
+  </section>
 
-  <!-- ── GALLERY ───────────────────────────────────────────────────────── -->
-  <main class="gallery" id="gallery" aria-label="Portfolio gallery">
-    <!-- injected by script.js -->
-  </main>
-
-  <!-- ── INFINITE SCROLL SENTINEL ─────────────────────────────────────────── -->
-  <div id="scroll-sentinel" class="hidden" aria-hidden="true"></div>
-
-  <!-- ── EMPTY STATE ──────────────────────────────────────────────────── -->
-  <div class="empty-state hidden" id="emptyState">
-    <div class="empty-inner">
-      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
-        <rect x="8" y="8" width="48" height="48" rx="4"/>
-        <circle cx="24" cy="26" r="5"/>
-        <polyline points="8,44 20,32 32,42 44,28 56,40"/>
-      </svg>
-      <h2>No images yet</h2>
-      <p>Drop your images into subfolders inside <code>images/</code>, then run:</p>
-      <pre>node generate-manifest.js</pre>
-      <p>Each subfolder becomes a category in the gallery.</p>
-    </div>
-  </div>
-
-  <!-- ── LIGHTBOX ─────────────────────────────────────────────────────── -->
-  <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <button class="lb-close"  id="lbClose"  aria-label="Close">&#x2715;</button>
-    <button class="lb-prev"   id="lbPrev"   aria-label="Previous image">&#x276E;</button>
-    <button class="lb-next"   id="lbNext"   aria-label="Next image">&#x276F;</button>
-    <figure class="lb-figure">
-      <img id="lbImg" src="" alt="" />
-      <figcaption id="lbCaption"></figcaption>
-    </figure>
-  </div>
-
-  <script src="script.js"></script>
-
+  <!-- FOOTER -->
   <footer class="site-footer">
-    <p>&copy; <span id="footerYear"></span> Lavinia Gabriela Enache &mdash; All rights reserved.</p>
-    <p class="footer-note">Unauthorized reproduction or distribution of any artwork is strictly prohibited.</p>
+    <p>&copy; <span id="footerYear"></span> Dana Enache &mdash; All rights reserved.</p>
   </footer>
-  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+
+  <script src="theme.js"></script>
 </body>
 </html>
