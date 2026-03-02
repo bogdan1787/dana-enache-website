@@ -35,7 +35,7 @@ STORY_PAGE_TEMPLATE = """\
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title} — Dana Enache</title>
   <meta name="description" content="{excerpt}" />
-  <meta name="keywords"    content="Dana Enache, horror story, {title}, dark fiction, psychological horror" />
+  <meta name="keywords"    content="Dana Enache, {title}, horror story, horror short story, dark fiction, psychological horror, free horror stories, horror fiction" />
   <meta name="author"      content="Dana Enache" />
   <meta property="og:type"               content="article" />
   <meta property="og:site_name"          content="Dana Enache — Horror Author" />
