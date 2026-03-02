@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://danaenache.com/</loc></url>
-  <url><loc>https://danaenache.com/books.html</loc></url>
-  <url><loc>https://danaenache.com/stories.html</loc></url>
-  <url><loc>https://danaenache.com/about.html</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://laviniaenache.com/</loc>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/abstract/abstract.jpg</image:loc>
+      <image:title>abstract</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/books/author.jpg</image:loc>
+      <image:title>author</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/books/evolution.jpg</image:loc>
+      <image:title>evolution</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/books/on-vacation.jpg</image:loc>
+      <image:title>on vacation</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/books/the-dream.jpg</image:loc>
+      <image:title>the dream</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/landscapes/lake.jpg</image:loc>
+      <image:title>lake</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/portraits/tree 2.jpg</image:loc>
+      <image:title>tree 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://laviniaenache.com/images/portraits/tree.jpg</image:loc>
+      <image:title>tree</image:title>
+    </image:image>
+  </url>
 </urlset>

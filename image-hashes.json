@@ -4,6 +4,26 @@
     "hash": "1c62c8f481f37b843dbc8b1e08d9e93c19b4bd7447656f88873d6ac09f369ea2",
     "w": 2400
   },
+  "images/books/author.jpg": {
+    "h": 1024,
+    "hash": "2dadd850f7f073493a423586501f19841ecaa8f3c33372e354a453231b6b56ab",
+    "w": 1024
+  },
+  "images/books/evolution.jpg": {
+    "h": 477,
+    "hash": "1e847e20d42277c258ccca052aa286e7cbe6c3c8009c512df93d1d5d0df0e27a",
+    "w": 300
+  },
+  "images/books/on-vacation.jpg": {
+    "h": 445,
+    "hash": "02f5588616c4a98a0e51a053d34f0e73c120eafd03f4a942d17965aa4b83a30e",
+    "w": 279
+  },
+  "images/books/the-dream.jpg": {
+    "h": 466,
+    "hash": "b822967bd9d1ca9a3a086cbd1ca8b8fcd1acf89982676567529fa471dbe0c23f",
+    "w": 311
+  },
   "images/landscapes/lake.jpg": {
     "h": 1506,
     "hash": "220d5b451e55477442948e3a07b7d27384a24ba0089f833fcb30cccdd66e5d94",
