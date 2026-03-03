@@ -57,14 +57,32 @@
       document.querySelector('a[data-paypal-link]');
     if (!hasLinks) return;
 
+    const CACHE_KEY = 'de-country';
+    const CACHE_TTL = 86400000; // 24 hours
+
+    function getCached() {
+      try {
+        const v = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+        if (v && (Date.now() - v.ts < CACHE_TTL)) return v.country;
+      } catch (e) {}
+      return null;
+    }
+
+    function setCache(country) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ country, ts: Date.now() })); } catch (e) {}
+    }
+
     const run = () => {
+      const cached = getCached();
+      if (cached) { updateLinks(cached); return; }
+
       fetch('https://api.country.is/')
         .then(r => r.json())
-        .then(d => { if (d && d.country) updateLinks(d.country); else updateLinks(fromBrowserLanguage()); })
+        .then(d => { if (d && d.country) { setCache(d.country); updateLinks(d.country); } else updateLinks(fromBrowserLanguage()); })
         .catch(() =>
           fetch('https://get.geojs.io/v1/ip/country.json')
             .then(r => r.json())
-            .then(d => { if (d && d.country) updateLinks(d.country); else updateLinks(fromBrowserLanguage()); })
+            .then(d => { if (d && d.country) { setCache(d.country); updateLinks(d.country); } else updateLinks(fromBrowserLanguage()); })
             .catch(() => updateLinks(fromBrowserLanguage()))
         );
     };
