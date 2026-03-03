@@ -49,6 +49,7 @@
   }
   </script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="image" href="images/books/author.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -75,7 +76,7 @@
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-portrait">
-        <img src="images/books/author.jpg" alt="Dana Enache" />
+        <img src="images/books/author.jpg" alt="Dana Enache" fetchpriority="high" />
       </div>
       <div class="hero-text">
         <h1 class="hero-title">Dana Enache</h1>
