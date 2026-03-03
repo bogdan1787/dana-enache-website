@@ -10,6 +10,7 @@ on:
       - "style.css"
       - "script.js"
       - "generate-story-manifest.py"
+      - "minify.py"
       - "optimize-images.py"
       - "fetch-goodreads.py"
   schedule:
@@ -33,8 +34,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Pillow
-        run: pip install Pillow --quiet
+      - name: Install dependencies
+        run: pip install Pillow rcssmin rjsmin --quiet
 
       - name: Fetch Goodreads ratings
         run: python fetch-goodreads.py
@@ -46,11 +47,14 @@ jobs:
       - name: Generate story manifest & pages
         run: python generate-story-manifest.py
 
+      - name: Minify CSS & JS
+        run: python minify.py
+
       - name: Commit changes
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add images/ story-manifest.json story-dates.json stories/ goodreads-ratings.js
+          git add images/ story-manifest.json story-dates.json stories/ goodreads-ratings.js style.min.css theme.min.js geo-links.min.js blood.min.js goodreads-ratings.min.js script.min.js
           if git diff --staged --quiet; then
             echo "Nothing to commit."
           else
