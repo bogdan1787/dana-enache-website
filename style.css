@@ -849,7 +849,37 @@ body {
   margin-bottom: 1rem;
 }
 .goodreads-btn:hover { background: #7a5510; transform: translateY(-2px); }
-.about-order {
+.about-socials {
+  display:         flex;
+  justify-content: center;
+  gap:             1rem;
+  margin-bottom:   1.5rem;
+}
+.about-social-link {
+  display:      inline-flex;
+  align-items:  center;
+  gap:          0.4rem;
+  padding:      0.5rem 1.1rem;
+  border:       1px solid var(--border);
+  border-radius: var(--radius);
+  font-size:    0.88rem;
+  color:        var(--muted);
+  transition:   border-color var(--transition), color var(--transition), background var(--transition);
+}
+.about-social-link:hover {
+  border-color: var(--accent);
+  color:        var(--text);
+  background:   var(--surface);
+}
+.about-cta-row {
+  display:         flex;
+  justify-content: center;
+  gap:             1rem;
+  flex-wrap:       wrap;
+  margin-top:      1.5rem;
+}
+
+
   margin-top:    3rem;
   padding:       2rem;
   background:    var(--surface);

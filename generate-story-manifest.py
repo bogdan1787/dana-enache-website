@@ -9,6 +9,36 @@ URL_RE = re.compile(r'(https?://\S+)')
 STORIES_DIR   = 'stories'
 MANIFEST_FILE = 'story-manifest.json'
 DATES_FILE    = 'story-dates.json'
+SITEMAP_FILE  = 'sitemap.xml'
+BASE_URL      = 'https://danaenache.com'
+
+# Static pages included in every sitemap build
+STATIC_PAGES = [
+    {'loc': '/',                  'priority': '1.0', 'changefreq': 'weekly',  'images': [
+        {'loc': '/images/books/author.jpg',      'title': 'Dana Enache, horror author'},
+        {'loc': '/images/books/evolution.jpg',   'title': 'Evolution by Dana Enache'},
+        {'loc': '/images/books/on-vacation.jpg', 'title': 'On Vacation by Dana Enache'},
+        {'loc': '/images/books/the-dream.jpg',   'title': 'The Dream by Dana Enache'},
+    ]},
+    {'loc': '/about-me/',         'priority': '0.8', 'changefreq': 'monthly', 'images': [
+        {'loc': '/images/books/author.jpg',      'title': 'Dana Enache, horror author'},
+    ]},
+    {'loc': '/books/',            'priority': '0.9', 'changefreq': 'monthly', 'images': [
+        {'loc': '/images/books/evolution.jpg',   'title': 'Evolution by Dana Enache'},
+        {'loc': '/images/books/on-vacation.jpg', 'title': 'On Vacation by Dana Enache'},
+        {'loc': '/images/books/the-dream.jpg',   'title': 'The Dream by Dana Enache'},
+    ]},
+    {'loc': '/books/evolution/',  'priority': '0.8', 'changefreq': 'monthly', 'images': [
+        {'loc': '/images/books/evolution.jpg',   'title': 'Evolution by Dana Enache'},
+    ]},
+    {'loc': '/books/on-vacation/','priority': '0.8', 'changefreq': 'monthly', 'images': [
+        {'loc': '/images/books/on-vacation.jpg', 'title': 'On Vacation by Dana Enache'},
+    ]},
+    {'loc': '/books/the-dream/',  'priority': '0.8', 'changefreq': 'monthly', 'images': [
+        {'loc': '/images/books/the-dream.jpg',   'title': 'The Dream by Dana Enache'},
+    ]},
+    {'loc': '/stories/',          'priority': '0.8', 'changefreq': 'weekly'},
+]
 
 KNOWN_RO_SLUGS = {
     'naluca', 'constanta', 'omul-verde', 'copilul-din-vis',
@@ -230,6 +260,51 @@ def make_next_story_html(next_s):
 
 '''
 
+def write_sitemap(stories):
+    """Generate sitemap.xml with static pages + all story pages."""
+    def url_block(loc, priority, changefreq, lastmod=None, images=None):
+        lines = [
+            '  <url>',
+            f'    <loc>{BASE_URL}{loc}</loc>',
+        ]
+        if lastmod:
+            lines.append(f'    <lastmod>{lastmod}</lastmod>')
+        lines += [
+            f'    <changefreq>{changefreq}</changefreq>',
+            f'    <priority>{priority}</priority>',
+        ]
+        for img in (images or []):
+            lines += [
+                '    <image:image>',
+                f'      <image:loc>{BASE_URL}{img["loc"]}</image:loc>',
+                f'      <image:title>{html.escape(img["title"])}</image:title>',
+                '    </image:image>',
+            ]
+        lines.append('  </url>')
+        return lines
+
+    out = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+        '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
+    ]
+    for page in STATIC_PAGES:
+        out += url_block(page['loc'], page['priority'], page['changefreq'],
+                         images=page.get('images'))
+    for s in stories:
+        images = []
+        if s.get('cover'):
+            cover_filename = os.path.basename(s['cover'])
+            images = [{'loc': f'/stories/{s["slug"]}/{cover_filename}', 'title': s['title']}]
+        out += url_block(f'/stories/{s["slug"]}/', '0.6', 'yearly',
+                         lastmod=s['added'], images=images)
+    out.append('</urlset>')
+
+    with open(SITEMAP_FILE, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(out) + '\n')
+    print(f"Generated {SITEMAP_FILE} ({len(STATIC_PAGES) + len(stories)} URLs)")
+
+
 def main():
     if os.path.exists(DATES_FILE):
         with open(DATES_FILE, encoding='utf-8') as f:
@@ -358,6 +433,8 @@ def main():
         json.dump(manifest, f, ensure_ascii=False, indent=2)
     with open(DATES_FILE, 'w', encoding='utf-8') as f:
         json.dump(story_dates, f, ensure_ascii=False, indent=2)
+
+    write_sitemap(stories)
 
     print(f"Generated story-manifest.json with {len(stories)} stories")
     print(f"Generated {len(stories)} individual story pages (stories/{{slug}}/index.html)")
