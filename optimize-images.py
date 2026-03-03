@@ -34,6 +34,7 @@ HASHES_FILE   = Path(__file__).parent / "image-hashes.json"
 
 MAX_PX         = 2400    # max width or height for full images
 THUMB_PX       = 400     # max width or height for grid thumbnails
+WEBP_PX        = 600     # max width or height for same-name WebP companion
 JPEG_Q         = 85      # JPEG / WebP quality
 
 
@@ -72,6 +73,15 @@ def generate_thumb(img: Image.Image, original_path: Path) -> Path:
     thumb.thumbnail((THUMB_PX, THUMB_PX), Image.LANCZOS)
     save_image(thumb, thumb_path)
     return thumb_path
+
+
+def generate_webp_companion(img: Image.Image, original_path: Path) -> Path:
+    """Save a 600px WebP alongside the source JPEG/PNG and return its path."""
+    webp_path = original_path.with_suffix(".webp")
+    companion = img.copy()
+    companion.thumbnail((WEBP_PX, WEBP_PX), Image.LANCZOS)
+    save_image(companion, webp_path)
+    return webp_path
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -115,6 +125,8 @@ for img_path in sorted(IMAGES_DIR.rglob("*")):
 
         save_image(result, img_path)
         generate_thumb(result, img_path)
+        if img_path.suffix.lower() in {".jpg", ".jpeg", ".png"}:
+            generate_webp_companion(result, img_path)
 
         new_size    = img_path.stat().st_size
         saving      = round((1 - new_size / orig_size) * 100) if orig_size else 0
